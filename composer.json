@@ -21,7 +21,8 @@
     "guzzle/guzzle": "3.5",
     "phpunit/phpunit": "4.2.*",
     "mockery/mockery": "0.9.4",
-    "guzzle/http": "3.5.*"
+    "guzzle/http": "3.5.*",
+    "zendframework/zftool": "dev-master"
   },
   "config": {
     "bin-dir": "bin"
