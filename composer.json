@@ -1,0 +1,35 @@
+{
+  "name": "maui/dream-beach",
+  "authors": [
+    {
+      "name": "David Contavalli",
+      "email": "mauipipe@gmail.com"
+    }
+
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "zendframework/zend-developer-tools": "dev-master",
+    "behat/behat": "2.4.*@stable",
+    "behat/mink": "1.5.0",
+    "behat/mink-extension": "*",
+    "behat/mink-goutte-driver": "*",
+    "behat/mink-selenium2-driver": "*",
+    "mvlabs/zf2behat-extension": "dev-master",
+    "guzzle/guzzle": "3.5",
+    "phpunit/phpunit": "4.2.*",
+    "mockery/mockery": "0.9.4",
+    "guzzle/http": "3.5.*"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+
+  "autoload": {
+    "psr-0":{
+      "API":"module/API/src/"
+    }
+  }
+}
