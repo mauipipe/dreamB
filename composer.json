@@ -5,10 +5,10 @@
       "name": "David Contavalli",
       "email": "mauipipe@gmail.com"
     }
-
   ],
   "require": {
-    "php": ">=5.4"
+    "php": ">=5.4",
+    "doctrine/doctrine-orm-module": "0.9.*"
   },
   "require-dev": {
     "zendframework/zend-developer-tools": "dev-master",
@@ -27,10 +27,9 @@
   "config": {
     "bin-dir": "bin"
   },
-
   "autoload": {
-    "psr-0":{
-      "API":"module/API/src/"
+    "psr-0": {
+      "API": "module/API/src/"
     }
   }
 }
