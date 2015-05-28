@@ -22,6 +22,7 @@
     "phpunit/phpunit": "4.2.*",
     "mockery/mockery": "0.9.4",
     "guzzle/http": "3.5.*",
+    "kriswallsmith/Buzz": "v0.13",
     "zendframework/zftool": "dev-master"
   },
   "config": {
