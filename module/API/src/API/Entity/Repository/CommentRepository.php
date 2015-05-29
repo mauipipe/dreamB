@@ -1,6 +1,7 @@
 <?php
 
 namespace API\Entity\Repository;
+use API\Entity\Comment;
 
 /**
  * CommentRepository
@@ -10,4 +11,9 @@ namespace API\Entity\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function addComment(Comment $comment)
+    {
+        $this->_em->persist($comment);
+    }
 }

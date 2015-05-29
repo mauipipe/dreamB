@@ -60,6 +60,11 @@ return array(
             'entity_class' => 'API\Entity\Beach',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
+        ),
+        'comment_hydrator' => array(
+            'entity_class' => 'API\Entity\Beach',
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
         )
     ),
     'doctrine'        => array(

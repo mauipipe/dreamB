@@ -14,6 +14,6 @@ Feature:
       | beach_id   | 1                                      |
       | name       | Gandalf                                |
       | lastName   | Grey                                   |
-      | desctipion | beautiful beach carved betwen 2 cliffs |
+      | description | beautiful beach carved betwen 2 cliffs |
     Then the response code should be 201
     And there are 1 'Comment' in the system

@@ -2,6 +2,7 @@ default:
   context:
      parameters:
           baseUrl: 'http://api.dream-beach.local'
+          testImagePath: 'media'
   extensions:
      MvLabs\Zf2Extension\Zf2Extension:
           config : config/application.config.php

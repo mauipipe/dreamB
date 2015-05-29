@@ -10,20 +10,23 @@ class Module
 
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 0);
         $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), 0);
     }
+
     public function onDispatchError($e)
     {
         return $this->getJsonModelError($e);
     }
+
     public function onRenderError($e)
     {
         return $this->getJsonModelError($e);
     }
+
     public function getJsonModelError($e)
     {
         $error = $e->getError();
@@ -35,10 +38,10 @@ class Module
         $exceptionJson = array();
         if ($exception) {
             $exceptionJson = array(
-                'class' => get_class($exception),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-                'message' => $exception->getMessage(),
+                'class'      => get_class($exception),
+                'file'       => $exception->getFile(),
+                'line'       => $exception->getLine(),
+                'message'    => $exception->getMessage(),
                 'stacktrace' => $exception->getTraceAsString()
             );
         }
@@ -79,8 +82,8 @@ class Module
                 'API\Controller\Index' => 'API\Controller\IndexController'
             ),
             'factories'  => array(
-                'API\Controller\Beach' => 'API\Controller\BeachControllerFactory',
-                'API\Controller\Comment'=> 'API\Controller\CommentControllerFactory'
+                'API\Controller\Beach'   => 'API\Controller\BeachControllerFactory',
+                'API\Controller\Comment' => 'API\Controller\CommentControllerFactory'
             )
         );
     }
@@ -88,8 +91,9 @@ class Module
     public function getServiceConfig()
     {
         return array(
-            'factories'  => array(
-                'beach.service' => 'API\Service\BeachServiceFactory'
+            'factories' => array(
+                'beach.service'   => 'API\Service\BeachServiceFactory',
+                'comment.service' => 'API\Service\CommentServiceFactory',
             )
         );
     }

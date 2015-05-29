@@ -17,6 +17,7 @@ class CommentControllerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $sm = $serviceLocator->getServiceLocator();
-        return new CommentController();
+        $commentService = $sm->get('comment.service');
+        return new CommentController($commentService);
     }
 }
