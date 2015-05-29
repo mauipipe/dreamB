@@ -79,7 +79,8 @@ class Module
                 'API\Controller\Index' => 'API\Controller\IndexController'
             ),
             'factories'  => array(
-                'API\Controller\Beach' => 'API\Controller\BeachControllerFactory'
+                'API\Controller\Beach' => 'API\Controller\BeachControllerFactory',
+                'API\Controller\Comment'=> 'API\Controller\CommentControllerFactory'
             )
         );
     }

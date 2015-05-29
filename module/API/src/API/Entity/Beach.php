@@ -32,6 +32,11 @@ class Beach
     protected $city;
 
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="beach")
+     **/
+    protected $comments;
+
+    /**
      * @ORM\Column(type="text", length=200)
      */
     protected $slug;
@@ -116,5 +121,46 @@ class Beach
     public function getCity()
     {
         return $this->city;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \API\Entity\Comment $comment
+     *
+     * @return Beach
+     */
+    public function addComment(\API\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \API\Entity\Comment $comment
+     */
+    public function removeComment(\API\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

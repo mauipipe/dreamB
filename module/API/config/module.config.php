@@ -32,6 +32,18 @@ return array(
                             ),
                         ),
                     ),
+                    'comment' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/comment[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'API\Controller\Comment',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
