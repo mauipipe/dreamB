@@ -1,7 +1,7 @@
 default:
   context:
      parameters:
-          baseUrl: 'http://api.dream-flat.local'
+          baseUrl: 'http://api.dream-beach.local'
   extensions:
      MvLabs\Zf2Extension\Zf2Extension:
           config : config/application.config.php

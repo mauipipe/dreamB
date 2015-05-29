@@ -8,9 +8,10 @@
 return array(
     'modules' => array(
         'Application',
-        'API',
         'DoctrineModule',
-        'DoctrineORMModule'
+        'DoctrineORMModule',
+        'Phpro\\DoctrineHydrationModule',
+        'API'
     ),
     'module_listener_options' => array(
         'module_paths' => array(

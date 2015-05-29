@@ -11,6 +11,7 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use MvLabs\Zf2Extension\Context\Zf2AwareContextInterface;
 
 use Zend\Mvc\Application;
@@ -31,7 +32,7 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
 {
     private $zf2MvcApplication;
     private $parameters;
-    private $entities = array();
+
 
     /**
      * Initializes context with parameters from behat.yml.
@@ -68,7 +69,10 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
     public function thereAreInTheSystem($itemNr, $entityName)
     {
 
-        throw new PendingException();
+        $em = $this->getEntityManager();
+        $itemRepo = $em->getRepository('API\Entity\\' . $entityName);
+        $items = $itemRepo->findAll();
+        \PHPUnit_Framework_Assert::assertSame((int)$itemNr, sizeof($items));
     }
 
 
@@ -78,5 +82,23 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
     public function iShouldHaveInMySystem($arg1, $arg2)
     {
         throw new PendingException();
+    }
+
+    public function getEntityManager()
+    {
+        return $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+    }
+
+
+    /**
+     * @BeforeScenario
+     */
+    public function restoreDb()
+    {
+        $em = $this->getEntityManager();
+        $tool = new SchemaTool($em);
+        $metaData = $em->getMetadataFactory()->getAllMetadata();
+        $tool->dropSchema($metaData);
+        $tool->createSchema($metaData);
     }
 }

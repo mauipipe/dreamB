@@ -8,7 +8,9 @@
   ],
   "require": {
     "php": ">=5.4",
-    "doctrine/doctrine-orm-module": "0.9.*"
+    "doctrine/doctrine-orm-module": "0.9.*",
+    "phpro/zf-doctrine-hydration-module":"~0.1",
+    "cocur/slugify":"v1.1"
   },
   "require-dev": {
     "zendframework/zend-developer-tools": "dev-master",
@@ -23,7 +25,8 @@
     "mockery/mockery": "0.9.4",
     "guzzle/http": "3.5.*",
     "kriswallsmith/Buzz": "v0.13",
-    "zendframework/zftool": "dev-master"
+    "zendframework/zftool": "dev-master",
+    "phpspec/phpspec": "~2.0"
   },
   "config": {
     "bin-dir": "bin"

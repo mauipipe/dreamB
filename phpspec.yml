@@ -1,0 +1,8 @@
+formatter.name: progress
+
+suites:
+    Search:
+        namespace:    API
+        spec_prefix:  Spec
+        src_path:     'module/API/src/'
+        spec_path:    'module/API/'
