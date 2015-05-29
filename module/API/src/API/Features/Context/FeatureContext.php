@@ -14,6 +14,7 @@ use Behat\Gherkin\Node\PyStringNode,
 use Doctrine\ORM\Tools\SchemaTool;
 use MvLabs\Zf2Extension\Context\Zf2AwareContextInterface;
 
+use Symfony\Component\Finder\Finder;
 use Zend\Mvc\Application;
 
 //
@@ -100,5 +101,16 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
         $metaData = $em->getMetadataFactory()->getAllMetadata();
         $tool->dropSchema($metaData);
         $tool->createSchema($metaData);
+    }
+
+    /**
+     * @Given /^(\d+) saved images$/
+     */
+    public function savedImages($imageNr)
+    {
+        $finder = new Finder();
+        $sourcePath = __DIR__ . '/../' . $this->parameters['testImagePath'];
+        $iterator = $finder->files()->in($sourcePath);
+        \PHPUnit_Framework_Assert::assertSame((int) $imageNr, $iterator->count());
     }
 }
