@@ -65,6 +65,9 @@ return array(
             'entity_class' => 'API\Entity\Beach',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
+            'strategies' => array(
+                'beach' => 'comment.strategy',
+            ),
         )
     ),
     'doctrine'        => array(

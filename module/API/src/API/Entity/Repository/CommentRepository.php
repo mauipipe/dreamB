@@ -1,7 +1,9 @@
 <?php
 
 namespace API\Entity\Repository;
+
 use API\Entity\Comment;
+use Zend\Stdlib\Parameters;
 
 /**
  * CommentRepository
@@ -15,5 +17,19 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
     public function addComment(Comment $comment)
     {
         $this->_em->persist($comment);
+    }
+
+    public function getComments(Parameters $params)
+    {
+
+        $dql = 'SELECT co ' .
+            'FROM ' . $this->_entityName . ' co ' .
+            'JOIN co.beach b ' .
+            'JOIN b.city c';
+
+        $result = $this->_em->createQuery($dql)
+            ->getResult();
+
+        return $result;
     }
 }

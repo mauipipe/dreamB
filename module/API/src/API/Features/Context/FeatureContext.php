@@ -17,6 +17,11 @@ use MvLabs\Zf2Extension\Context\Zf2AwareContextInterface;
 use Symfony\Component\Finder\Finder;
 use Zend\Mvc\Application;
 
+use Doctrine\Common\DataFixtures\Loader;
+use API\Features\Fixtures\LoadCityData;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+
 //
 // Require 3rd-party libraries here:
 //
@@ -90,6 +95,16 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
         return $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
     }
 
+    /**
+     * @Given /^(\d+) saved images$/
+     */
+    public function savedImages($imageNr)
+    {
+        $finder = new Finder();
+        $sourcePath = __DIR__ . '/../' . $this->parameters['testImagePath'];
+        $iterator = $finder->files()->in($sourcePath);
+        \PHPUnit_Framework_Assert::assertSame((int) $imageNr, $iterator->count());
+    }
 
     /**
      * @BeforeScenario
@@ -101,16 +116,10 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
         $metaData = $em->getMetadataFactory()->getAllMetadata();
         $tool->dropSchema($metaData);
         $tool->createSchema($metaData);
-    }
-
-    /**
-     * @Given /^(\d+) saved images$/
-     */
-    public function savedImages($imageNr)
-    {
-        $finder = new Finder();
-        $sourcePath = __DIR__ . '/../' . $this->parameters['testImagePath'];
-        $iterator = $finder->files()->in($sourcePath);
-        \PHPUnit_Framework_Assert::assertSame((int) $imageNr, $iterator->count());
+        $loader = new Loader();
+        $loader->addFixture(new LoadCityData());
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($em, $purger);
+        $executor->execute($loader->getFixtures());
     }
 }

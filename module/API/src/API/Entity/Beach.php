@@ -122,6 +122,7 @@ class Beach
     {
         return $this->city;
     }
+
     /**
      * Constructor
      */
@@ -162,5 +163,10 @@ class Beach
     public function getComments()
     {
         return $this->comments;
+    }
+
+    public function getCityName()
+    {
+        return $this->city->getName();
     }
 }

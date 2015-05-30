@@ -91,7 +91,10 @@ class Module
     public function getServiceConfig()
     {
         return array(
-            'factories' => array(
+            'invokables' => array(
+                'comment.strategy' => 'API\Service\Strategy\CommentStrategy'
+            ),
+            'factories'  => array(
                 'beach.service'   => 'API\Service\BeachServiceFactory',
                 'comment.service' => 'API\Service\CommentServiceFactory',
             )

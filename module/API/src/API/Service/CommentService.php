@@ -6,6 +6,7 @@ use API\Entity\Comment;
 use API\Entity\Repository\CommentRepository;
 use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Parameters;
 
 class CommentService
 {
@@ -37,5 +38,16 @@ class CommentService
         }
         $this->commentRepository->addComment($comment);
         $this->entityManager->flush();
+    }
+
+    public function getComments(Parameters $params)
+    {
+        $comments = $this->commentRepository->getComments($params);
+        $result = array();
+        foreach ($comments as $comment) {
+            $commentData = $this->doctrineHydrator->extract($comment);
+            $result[] = $commentData;
+        }
+        return $result;
     }
 }

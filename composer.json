@@ -26,7 +26,8 @@
     "guzzle/http": "3.5.*",
     "kriswallsmith/Buzz": "v0.13",
     "zendframework/zftool": "dev-master",
-    "phpspec/phpspec": "~2.0"
+    "phpspec/phpspec": "~2.0",
+    "doctrine/data-fixtures": "v1.1.1"
   },
   "config": {
     "bin-dir": "bin"

@@ -32,4 +32,21 @@ class CommentController extends AbstractRestfulController
         return new JsonModel($responseBody);
     }
 
+    public function getList()
+    {
+        $responseBody = array();
+        $response = $this->getResponse();
+
+        $params = $this->getRequest()->getQuery();
+
+        try {
+            $responseBody = $this->commentService->getComments($params);
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $responseBody['error'] = $e->getMessage();
+        }
+
+        return new JsonModel($responseBody);
+    }
+
 }
