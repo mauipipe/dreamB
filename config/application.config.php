@@ -11,6 +11,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'Phpro\\DoctrineHydrationModule',
+        'ZfrCors',
         'API'
     ),
     'module_listener_options' => array(

@@ -10,7 +10,8 @@
     "php": ">=5.4",
     "doctrine/doctrine-orm-module": "0.9.*",
     "phpro/zf-doctrine-hydration-module":"~0.1",
-    "cocur/slugify":"v1.1"
+    "cocur/slugify":"v1.1",
+    "zfr/zfr-cors":"1.*"
   },
   "require-dev": {
     "zendframework/zend-developer-tools": "dev-master",
