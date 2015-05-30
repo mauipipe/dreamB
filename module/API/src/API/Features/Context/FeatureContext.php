@@ -2,25 +2,19 @@
 namespace API\Features\Context;
 
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    API\Features\Context\WebApiContext,
-    Behat\Behat\Exception\PendingException;
-
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
-
+use API\Features\Fixtures\LoadBeachData;
+use API\Features\Fixtures\LoadCityData;
+use API\Features\Fixtures\LoadCommentData;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Step\Given;
+use Behat\Behat\Exception\PendingException;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\Tools\SchemaTool;
 use MvLabs\Zf2Extension\Context\Zf2AwareContextInterface;
-
 use Symfony\Component\Finder\Finder;
 use Zend\Mvc\Application;
-
-use Doctrine\Common\DataFixtures\Loader;
-use API\Features\Fixtures\LoadCityData;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 //
 // Require 3rd-party libraries here:
@@ -103,7 +97,7 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
         $finder = new Finder();
         $sourcePath = __DIR__ . '/../' . $this->parameters['testImagePath'];
         $iterator = $finder->files()->in($sourcePath);
-        \PHPUnit_Framework_Assert::assertSame((int) $imageNr, $iterator->count());
+        \PHPUnit_Framework_Assert::assertSame((int)$imageNr, $iterator->count());
     }
 
     /**
@@ -116,10 +110,53 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
         $metaData = $em->getMetadataFactory()->getAllMetadata();
         $tool->dropSchema($metaData);
         $tool->createSchema($metaData);
+    }
+
+
+    /**
+     * @Given /^I have (\d+) \'([^\']*)\' on my system$/
+     */
+    public function iHaveOnMySystem($itemNr, $entityName)
+    {
+        $fixtures = array();
+        var_dump($entityName);
+        switch($entityName){
+            case 'Comment':
+                $fixtures = array(
+                    new LoadCityData(),
+                    new LoadBeachData(),
+                    new LoadCommentData()
+                );
+                break;
+            case 'City':
+                $fixtures = array(
+                    new LoadCityData(),
+                );
+                break;
+        }
+
+        $this->loadFixtures($fixtures);
+
+    }
+
+    /**
+     * @Given /^(\d+) of it is from a beach from "([^"]*)"$/
+     */
+    public function ofItIsFromABeachFrom($arg1, $arg2)
+    {
+
+    }
+
+    private function loadFixtures(array $fixtures)
+    {
         $loader = new Loader();
-        $loader->addFixture(new LoadCityData());
+        foreach ($fixtures as $fixture) {
+            $loader->addFixture($fixture);
+        }
+        $em = $this->getEntityManager();
         $purger = new ORMPurger();
         $executor = new ORMExecutor($em, $purger);
         $executor->execute($loader->getFixtures());
     }
+
 }

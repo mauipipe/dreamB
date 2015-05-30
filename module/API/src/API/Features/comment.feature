@@ -5,6 +5,7 @@ Feature:
 
   @comment
   Scenario: add a new comment
+    Given I have 2 'Cities' on my system
     Given I send a POST request to "/beach" with values:
       | city_id | 1          |
       | name    | Boca Raton |
@@ -45,4 +46,27 @@ Feature:
         }
     }
   ]
+    """
+
+  @comment
+  Scenario: search comments by city
+    Given I have 2 'Comment' on my system
+    And 1 of it is from a beach from "Sicily"
+    When I send a GET request to "/comment?city=2"
+    Then the response code should be 200
+    And the response should contain json:
+    """
+ [
+    {
+        "id": 2,
+        "name": "Mimmo",
+        "lastName": "Rossi",
+        "description": "test",
+        "beach": {
+            "id": 2,
+            "name": "Palermo Beach",
+            "city": "Palermo"
+        }
+    }
+]
     """

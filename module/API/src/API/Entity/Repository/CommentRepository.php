@@ -21,15 +21,20 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
     public function getComments(Parameters $params)
     {
-
+        $hasParameter = sizeof($params) > 0;
         $dql = 'SELECT co ' .
             'FROM ' . $this->_entityName . ' co ' .
             'JOIN co.beach b ' .
-            'JOIN b.city c';
+            'JOIN b.city c ';
+        if($hasParameter){
+            $dql .= 'WHERE b.city = :city_id';
+        }
 
-        $result = $this->_em->createQuery($dql)
-            ->getResult();
+        $result = $this->_em->createQuery($dql);
+        if($hasParameter){
+            $result->setParameter(':city_id',$params['city']);
+        }
 
-        return $result;
+        return $result->getResult();
     }
 }
