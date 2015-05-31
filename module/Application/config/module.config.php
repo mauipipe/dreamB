@@ -10,28 +10,14 @@
 return array(
     'router'          => array(
         'routes' => array(
-            'home'        => array(
-                'type'    => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
-                    'route'    => '/',
-                    'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
             'application' => array(
                 'type'          => 'Literal',
                 'options'       => array(
-                    'route'    => '/application',
+                    'route'    => '/',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Index',
-                        'action'        => 'index',
+                        'action'=>'index'
                     ),
                 ),
                 'may_terminate' => true,
@@ -39,12 +25,11 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'       => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'route'       => 'image/comment[/:image_file]',
+                            'defaults'    => array(
+                                'controller' => 'Application\Controller\Image',
+                                'action'     => 'comment',
                             ),
-                            'defaults'    => array(),
                         ),
                     ),
                 ),
@@ -97,5 +82,16 @@ return array(
             'routes' => array(),
         ),
     ),
-
+    'base_image_path'=>'/srv/apps/dreamBeach/data/pics',
+    'htimg'           => [
+        'filters' => [
+            'my_thumbnail' => [ // this is  filter service
+                'type'    => 'thumbnail', // this is a filter loader
+                'options' => [  // filter loader passes these options to a Filter which manipulates the image
+                    'width'  => 100,
+                    'height' => 100
+                ]
+            ]
+        ]
+    ]
 );
