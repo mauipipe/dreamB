@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Phpro\DoctrineHydrationModule\Hydrator\DoctrineHydrator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Zend\Stdlib\Parameters;
 
 class CommentServiceSpec extends ObjectBehavior
 {
@@ -52,22 +53,23 @@ class CommentServiceSpec extends ObjectBehavior
     function it_return_a_list_of_comments(
         CommentRepository $commentRepository,
         DoctrineHydrator $doctrineHydrator,
-        Comment $comment
+        Comment $comment,
+        Parameters $parameters
     )
     {
         $commentData = array(
             'name'        => 'Gandalf',
             'last_name'   => 'Grey',
             'description' => 'marvelous',
-            'beach' => array(
-                'id'=>1,
-                'name'=>'Playa grande'
+            'beach'       => array(
+                'id'   => 1,
+                'name' => 'Playa grande'
             )
         );
 
-        $commentRepository->getComments(array())->shouldBeCalled()->willReturn(array($comment));
+        $commentRepository->getComments($parameters)->shouldBeCalled()->willReturn(array($comment));
         $doctrineHydrator->extract($comment)->shouldBeCalled()->willReturn($commentData);
 
-        $this->getComments(array())->shouldBeEqualTo(array($commentData));
+        $this->getComments($parameters)->shouldBeEqualTo(array($commentData));
     }
 }
