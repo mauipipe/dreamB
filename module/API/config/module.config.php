@@ -72,6 +72,9 @@ return array(
             'entity_class' => 'API\Entity\Beach',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
+            'strategies' => array(
+                'city' => 'beach.strategy',
+            ),
         ),
         'city_hydrator' => array(
             'entity_class' => 'API\Entity\Beach',

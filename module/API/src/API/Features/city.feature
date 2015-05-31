@@ -3,7 +3,7 @@ Feature:
   As a api maintainer
   I should be able to list cities through a REST calls
 
-  @city @wip
+  @city
   Scenario: display a list of cities
     Given I have 2 'City' on my system
     When I send a GET request to "/city"

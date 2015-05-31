@@ -120,6 +120,12 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
     {
         $fixtures = array();
         switch($entityName){
+            case 'Beach':
+                $fixtures = array(
+                    new LoadCityData(),
+                    new LoadBeachData()
+                );
+                break;
             case 'Comment':
                 $fixtures = array(
                     new LoadCityData(),

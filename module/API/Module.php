@@ -93,7 +93,8 @@ class Module
     {
         return array(
             'invokables' => array(
-                'comment.strategy' => 'API\Service\Strategy\CommentStrategy'
+                'comment.strategy' => 'API\Service\Strategy\CommentStrategy',
+                'beach.strategy' => 'API\Service\Strategy\BeachStrategy'
             ),
             'factories'  => array(
                 'beach.service'   => 'API\Service\BeachServiceFactory',

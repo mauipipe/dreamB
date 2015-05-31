@@ -38,4 +38,20 @@ class BeachController extends AbstractRestfulController
         return new JsonModel($responseBody);
     }
 
+
+    public function getList()
+    {
+        $responseBody = array();
+        $response = $this->getResponse();
+
+        try {
+            $responseBody = $this->beachService->getBeaches();
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $responseBody['error'] = $e->getMessage();
+        }
+
+        return new JsonModel($responseBody);
+    }
+
 }

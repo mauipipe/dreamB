@@ -44,4 +44,25 @@ class BeachServiceSpec extends ObjectBehavior
         $this->addBeach($requestData);
 
     }
+
+    function  it_return_a_list_of_beaches(
+        BeachRepository $beachRepository,
+        DoctrineHydrator $doctrineHydrator,
+        EntityManager $entityManager,
+        Beach $beach
+    )
+    {
+        $beachData = array(
+            'id'   => 1,
+            'name' => 'Maria Beach',
+            'slug' => 'maria-beach',
+            'city'=> 'Palermo'
+        );
+
+        $beachRepository->findAll()->shouldBeCalled()->willReturn(array($beach));
+        $doctrineHydrator->extract($beach)->shouldBeCalled()->willReturn($beachData);
+
+        $this->getBeaches()->shouldBeEqualTo(array($beachData));
+
+    }
 }

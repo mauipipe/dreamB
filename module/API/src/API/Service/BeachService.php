@@ -43,4 +43,16 @@ class BeachService
         $this->beachRepository->addBeach($beach);
         $this->entityManager->flush();
     }
+
+    public function getBeaches()
+    {
+        $beaches = $this->beachRepository->findAll();
+        $result = array();
+        foreach($beaches as $beach){
+            $beachData = $this->doctrineHydrator->extract($beach);
+            $result[] = $beachData;
+        }
+
+        return $result;
+    }
 }
