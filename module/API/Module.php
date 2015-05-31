@@ -83,7 +83,8 @@ class Module
             ),
             'factories'  => array(
                 'API\Controller\Beach'   => 'API\Controller\BeachControllerFactory',
-                'API\Controller\Comment' => 'API\Controller\CommentControllerFactory'
+                'API\Controller\Comment' => 'API\Controller\CommentControllerFactory',
+                'API\Controller\City'    => 'API\Controller\CityControllerFactory'
             )
         );
     }
@@ -97,6 +98,7 @@ class Module
             'factories'  => array(
                 'beach.service'   => 'API\Service\BeachServiceFactory',
                 'comment.service' => 'API\Service\CommentServiceFactory',
+                'city.service'    => 'API\Service\CityServiceFactory'
             )
         );
     }

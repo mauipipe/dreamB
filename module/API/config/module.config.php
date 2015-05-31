@@ -44,6 +44,18 @@ return array(
                             ),
                         ),
                     ),
+                    'city' => array(
+                        'type' => 'segment',
+                        'options' => array(
+                            'route' => '/city[/:id]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'API\Controller\City',
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -57,6 +69,11 @@ return array(
 
     'doctrine-hydrator' => array(
         'beach_hydrator' => array(
+            'entity_class' => 'API\Entity\Beach',
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+        ),
+        'city_hydrator' => array(
             'entity_class' => 'API\Entity\Beach',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,

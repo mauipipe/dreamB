@@ -119,7 +119,6 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
     public function iHaveOnMySystem($itemNr, $entityName)
     {
         $fixtures = array();
-        var_dump($entityName);
         switch($entityName){
             case 'Comment':
                 $fixtures = array(

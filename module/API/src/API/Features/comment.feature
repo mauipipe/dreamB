@@ -5,7 +5,7 @@ Feature:
 
   @comment
   Scenario: add a new comment
-    Given I have 2 'Cities' on my system
+    Given I have 2 'City' on my system
     Given I send a POST request to "/beach" with values:
       | city_id | 1          |
       | name    | Boca Raton |
