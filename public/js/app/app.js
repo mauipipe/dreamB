@@ -5,7 +5,9 @@
 
 angular.module('dream-beach', [
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'ui.bootstrap',
+    'ngFileUpload'
 ]).config([
     '$interpolateProvider', function ($interpolateProvider) {
         return $interpolateProvider.startSymbol('{(').endSymbol(')}');

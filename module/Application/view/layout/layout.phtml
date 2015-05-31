@@ -24,12 +24,15 @@
         <div class="col-lg-offset-4 col-lg-2">
             <form id="search_comment">
                 <div class="form-group">
-                    <select class="form-control" ng-change="filterByCity()" ng-model="cityOption" >
+                    <select class="form-control" ng-change="filterByCity()" ng-model="cityOption">
                         <option value="">Sceglia una citta'</option>
                         <option ng-repeat="city in cities" value="{( city.id )}">{( city.name )}</option>
                     </select>
                 </div>
             </form>
+        </div>
+        <div class="col-lg-6">
+            <button class="btn btn-success" ng-click="open('lg')">Large modal</button>
         </div>
     </div>
 </nav>
@@ -43,14 +46,20 @@
 </div>
 <?php
 echo $this->headScript()
+    ->prependFile($this->basePath('js/dist/ng-file-upload/ng-file-upload.js'))
+    ->prependFile($this->basePath('js/dist/ng-file-upload/ng-file-upload-shim.js'))
     ->prependFile($this->basePath('js/dist/angular-resource/angular-resource.js'))
     ->prependFile($this->basePath('js/dist/angular-route/angular-route.js'))
     ->prependFile($this->basePath('js/app/app.js'))
     ->prependFile($this->basePath('js/Config.js'))
+    ->prependFile($this->basePath('js/dist/angular-bootstrap/ui-bootstrap-tpls.js'))
     ->prependFile($this->basePath('js/dist/angular/angular.js'))
     ->appendFile($this->basePath('js/app/Service/CommentResource.js'))
     ->appendFile($this->basePath('js/app/Service/CityResource.js'))
+    ->appendFile($this->basePath('js/app/Service/BeachResource.js'))
+    ->appendFile($this->basePath('js/app/Controller/ModalInstanceController.js'))
     ->appendFile($this->basePath('js/app/Controller/CommentController.js'));
 ?>
-</body>
+<?php echo $this->partial('layout/partial/commentModal');?>
+
 </html>
