@@ -11,6 +11,12 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
+                    <input class="form-control" ng-model="commentTitle" name="commentTitle" value="" required>
+
+                    <p ng-show="commentForm.commentTitle.$invalid && !commentForm.commentTitle.$pristine" class="help-block">Campo
+                        richiesto</p>
+                </div>
+                <div class="form-group">
                     <input class="form-control" ng-model="name" name="name" value="" required>
 
                     <p ng-show="commentForm.name.$invalid && !commentForm.name.$pristine" class="help-block">Campo

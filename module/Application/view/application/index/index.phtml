@@ -1,5 +1,6 @@
 <div class="content">
-    <div ng-repeat="comment in comments" class="col-lg-offset-4 col-lg-8">
+    <div ng-repeat="comment in comments | orderBy:'creationDate':false" class="col-lg-offset-4 col-lg-8">
+        <h1>{( comment.title )}</h1>
         <div class="col-lg-4">
             <img ng-src="{( comment.image )}" class="img-responsive"/>
         </div>

@@ -20,6 +20,7 @@ angular.module('dream-beach')
             $scope.save = function (file) {
 
                 var comment = {
+                    title: $scope.commentTitle,
                     name: $scope.name,
                     lastName: $scope.lastName,
                     beach_id: $scope.beach,
