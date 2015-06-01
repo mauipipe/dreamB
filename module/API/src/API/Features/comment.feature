@@ -8,6 +8,7 @@ Feature:
     Given I have 2 'Beach' on my system
     And there are 0 'Comment' in the system
     When I send a POST request to "/comment" with image:
+      | title       | Best Beach ever                        |
       | beach_id    | 1                                      |
       | name        | Gandalf                                |
       | lastName    | Grey                                   |
@@ -15,11 +16,14 @@ Feature:
     Then the response code should be 201
     And the response should contain json:
     """
-    { "entity": {
+   {
+    "entity": {
         "id": 1,
+        "title": "Best Beach ever",
         "name": "Gandalf",
         "lastName": "Grey",
         "description": "beautiful beach carved betwen 2 cliffs",
+        "creationDate": "2015-06-22 10:10:10",
         "beach": {
             "id": 1,
             "name": "Bay Beach",
@@ -38,12 +42,14 @@ Feature:
     Then the response code should be 200
     And the response should contain json:
     """
-   [
+  [
     {
         "id": 1,
+        "title": "Gus",
         "name": "Gus",
         "lastName": "Mc Duck",
         "description": "test",
+        "creationDate": "2015-06-22 10:10:10",
         "beach": {
             "id": 1,
             "name": "Bay Beach",
@@ -53,9 +59,11 @@ Feature:
     },
     {
         "id": 2,
+        "title": "Mimmo",
         "name": "Mimmo",
         "lastName": "Rossi",
         "description": "test",
+        "creationDate": "2015-06-22 10:10:10",
         "beach": {
             "id": 2,
             "name": "Palermo Beach",
@@ -74,12 +82,14 @@ Feature:
     Then the response code should be 200
     And the response should contain json:
     """
-  [
+ [
     {
         "id": 2,
+        "title": "Mimmo",
         "name": "Mimmo",
         "lastName": "Rossi",
         "description": "test",
+        "creationDate": "2015-06-22 10:10:10",
         "beach": {
             "id": 2,
             "name": "Palermo Beach",

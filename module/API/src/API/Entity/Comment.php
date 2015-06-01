@@ -23,6 +23,11 @@ class Comment
     /**
      * @ORM\Column(type="string", length=200)
      */
+    protected $title;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
     protected $name;
 
     /**
@@ -40,6 +45,15 @@ class Comment
      * @ORM\JoinColumn(name="beach_id", referencedColumnName="id")
      **/
     protected $beach;
+
+    /**
+     * @ORM\Column(name="creation_date", type="datetime")
+     */
+    protected $creationDate;
+
+    public function __construct(){
+        $this->creationDate = new \DateTime();
+    }
 
 
     /**
@@ -146,5 +160,53 @@ class Comment
     public function getBeach()
     {
         return $this->beach;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Comment
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Comment
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
     }
 }

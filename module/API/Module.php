@@ -104,7 +104,8 @@ class Module
         return array(
             'invokables' => array(
                 'comment.strategy' => 'API\Service\Strategy\CommentStrategy',
-                'beach.strategy'   => 'API\Service\Strategy\BeachStrategy'
+                'beach.strategy'   => 'API\Service\Strategy\BeachStrategy',
+                'datetime.strategy'   => 'API\Service\Strategy\DateTimeStrategy'
             ),
             'factories'  => array(
                 'beach.service'   => 'API\Service\BeachServiceFactory',

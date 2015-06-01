@@ -87,6 +87,7 @@ return array(
             'by_value'       => true,
             'strategies'     => array(
                 'beach' => 'comment.strategy',
+                'creationDate' => 'dateTime.strategy'
             ),
         )
     ),
@@ -108,7 +109,7 @@ return array(
         'API\Controller\CommentController' => array(
             'POST' => array(
                 'allowed_params' => array(
-                    'name', 'description', 'lastName', 'beach_id'
+                    'name', 'description', 'lastName', 'beach_id','title'
                 ),
                 'filter_class'   => 'API\Validator\CommentInputFilter'
             ),

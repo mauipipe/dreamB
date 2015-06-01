@@ -7,6 +7,8 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Buzz\Browser;
 use Guzzle\Http\Client;
+use Zend\Form\Element\DateTime;
+
 
 /**
  * Provides web API description definitions.
@@ -15,6 +17,8 @@ use Guzzle\Http\Client;
  */
 class WebApiContext extends BehatContext
 {
+    const DEFAULT_DATETIME = '2015-06-22 10:10:10';
+
     private $browser;
     private $guzzleResponse;
     private $guzzleRequest;
@@ -222,8 +226,18 @@ class WebApiContext extends BehatContext
         }else{
             $content = json_decode($this->browser->getLastResponse()->getContent(), true);
         }
+
+        $content = array_map(function($item){
+           if(array_key_exists('creationDate',$item)){
+               $item['creationDate'] = self::DEFAULT_DATETIME;
+               return $item;
+           }
+            return $item;
+        },$content);
+
         $etalon = json_decode($this->replacePlaceHolder($jsonString->getRaw()), true);
         $actual = $content;
+
 
         if (null === $etalon) {
             throw new \RuntimeException(
