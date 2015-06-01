@@ -35,7 +35,7 @@ class Module
         }
         $controllerName = $routeMatch->getParam('controller');
 
-        if (is_null($controllerName) && (false === strpos('API', $controllerName))) {
+        if (is_null($controllerName) ||  (false === strpos('API', $controllerName))) {
             return;
         }
 
