@@ -1,0 +1,77 @@
+<?php
+/**
+ * Created by David Contavalli <david.contavalli@gmail.com>
+ */
+?>
+<script type="text/ng-template" id="commentForm.html">
+    <div ng-show="!isBeachFormActive">
+        <form novalidate name="commentForm">
+            <div class="modal-header">
+                <h3 class="modal-title">Aggiungi un commento</h3>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" ng-model="commentTitle" name="commentTitle" value="" required>
+
+                    <p ng-show="commentForm.commentTitle.$invalid && !commentForm.commentTitle.$pristine" class="help-block">Campo
+                        richiesto</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" ng-model="name" name="name" value="" required>
+
+                    <p ng-show="commentForm.name.$invalid && !commentForm.name.$pristine" class="help-block">Campo
+                        richiesto</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" ng-model="lastName" name="lastName" value="" required>
+                </div>
+                <div class="form-group">
+                    <select name="beach" ng-model="beach" required>
+                        <option value="">Seleziona una spiaggia</option>
+                        <option ng-repeat="beach in beaches" value="{( beach.id )}">
+                            {( beach.name )} <span>({( beach.city )})</span>
+                        </option>
+                    </select>
+                    <p>La citta' non e' presente nell'elenco aggiungila <button ng-click="toggleBeachForm()" class="btn btn-danger">+</button></p>
+                </div>
+                <div class="form-group">
+                <textarea class="form-control" ng-model="description" required ng-maxlength="255"
+                          name="description"></textarea>
+
+                    <p ng-show="commentForm.description.$invalid && !commentForm.decription.$pristine"
+                       class="help-block">
+                        Campo richiesto</p>
+
+                </div>
+                <div class="form-group">
+                    <input type="file" ngf-select name="commentImage" ng-model="commentImage">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="save(commentImage)">Save</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div ng-show="isBeachFormActive">
+        <p><button class="btn btn-danger" ng-click="toggleBeachForm()">Indietro</button></p>
+
+        <form name="beachForm" novalidate>
+            <div class="form-group">
+                <input type="text" ng-model="beach.name" value="">
+            </div>
+            <div class="form-group">
+                <select name="city" ng-model="beach.city" required>
+                    <option value="">Seleziona una citta'</option>
+                    <option ng-repeat="city in cities" value="{( city.id )}">
+                        {( city.name )}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-primary" value="Salva"  ng-click="saveBeach(beach)" type="submit">
+            </div>
+        </form>
+    </div>
+</script>
+</body>
