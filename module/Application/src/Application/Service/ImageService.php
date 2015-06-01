@@ -19,7 +19,7 @@ class ImageService
     public function rename($fileName){
         $this->httpAdapter->addFilter('rename', array(
                 'target'    => $this->defaultImagePath . '/' . $fileName . self::DEFAULT_EXTENSION,
-                'overwrite' => false
+                'overwrite' => true
             )
         );
         return $this;

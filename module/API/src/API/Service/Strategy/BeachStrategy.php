@@ -6,6 +6,8 @@
 namespace API\Service\Strategy;
 
 
+use API\Entity\Beach;
+use API\Entity\City;
 use Zend\Stdlib\Hydrator\Strategy\StrategyInterface;
 
 class BeachStrategy implements StrategyInterface
@@ -20,7 +22,10 @@ class BeachStrategy implements StrategyInterface
      */
     public function extract($value)
     {
-        return $value->getName();
+        if($value instanceof City) {
+            return $value->getName();
+        }
+        return $value;
     }
 
     /**

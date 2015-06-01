@@ -18,10 +18,6 @@
                 </div>
                 <div class="form-group">
                     <input class="form-control" ng-model="lastName" name="lastName" value="" required>
-
-                    <p ng-show="commentForm.lastName.$invalid && !commentForm.lastName.$pristine" class="help-block">
-                        Campo
-                        richiesto</p>
                 </div>
                 <div class="form-group">
                     <select name="beach" ng-model="beach" required>
@@ -30,9 +26,6 @@
                             {( beach.name )} <span>({( beach.city )})</span>
                         </option>
                     </select>
-
-                    <p ng-show="commentForm.beach.$invalid && !commentForm.beach.$pristine" class="help-block">Campo
-                        richiesto</p>
                     <p>La citta' non e' presente nell'elenco aggiungila <button ng-click="toggleBeachForm()" class="btn btn-danger">+</button></p>
                 </div>
                 <div class="form-group">
@@ -60,9 +53,6 @@
         <form name="beachForm" novalidate>
             <div class="form-group">
                 <input type="text" ng-model="beach.name" value="">
-
-                <p ng-show="beachForm.beachName.$invalid && !beachForm.beachName.$pristine" class="help-block">Campo
-                    richiesto</p>
             </div>
             <div class="form-group">
                 <select name="city" ng-model="beach.city" required>
@@ -71,9 +61,6 @@
                         {( city.name )}
                     </option>
                 </select>
-
-                <p ng-show="beachForm.city.$invalid && !beachForm.city.$pristine" class="help-block">Campo
-                    richiesto</p>
             </div>
             <div class="form-group">
                 <input class="btn btn-primary" value="Salva"  ng-click="saveBeach(beach)" type="submit">

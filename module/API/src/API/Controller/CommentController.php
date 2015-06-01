@@ -4,11 +4,10 @@ namespace API\Controller;
 
 use API\Service\CommentService;
 use Application\Service\ImageService;
-use Zend\File\Transfer\Adapter\Http;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-class CommentController extends AbstractRestfulController
+class CommentController extends AbstractBaseRestController
 {
 
     private $commentService;
@@ -25,15 +24,17 @@ class CommentController extends AbstractRestfulController
         $responseBody = array();
         $response = $this->getResponse();
         try {
+
+            $requestParamsResult = $this->processRequestParams($data);
+            if($requestParamsResult instanceof JsonModel){
+                return $requestParamsResult;
+            }
             $comment = $this->commentService->addComment($data);
-
             $files = $this->getRequest()->getFiles()->toArray();
-
             $this->imageService->rename($comment['id']);
             if (!$this->imageService->isReceived($files['file']['name'])) {
-                throw new \RuntimeException('Error saving the image');
+                throw new \ImageNotFoundException('The image is not saved');
             }
-
             $formattedComment = $this->imageLinkCreator()->addCommentImageLink(array($comment));
             $responseBody['entity'] = $formattedComment[0];
             $response->setStatusCode(201);
@@ -41,7 +42,6 @@ class CommentController extends AbstractRestfulController
             $response->setStatusCode(500);
             $responseBody['error'] = $e->getMessage();
         }
-
         return new JsonModel($responseBody);
     }
 
@@ -51,6 +51,10 @@ class CommentController extends AbstractRestfulController
         $response = $this->getResponse();
 
         $params = $this->getRequest()->getQuery();
+        $requestParamsResult = $this->processRequestParams($params->toArray(),true);
+        if($requestParamsResult instanceof JsonModel){
+            return $requestParamsResult;
+        }
 
         try {
             $comments = $this->commentService->getComments($params);

@@ -3,10 +3,9 @@
 namespace API\Controller;
 
 use API\Service\BeachService;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
-class BeachController extends AbstractRestfulController
+class BeachController extends AbstractBaseRestController
 {
 
     private $beachService;
@@ -28,6 +27,10 @@ class BeachController extends AbstractRestfulController
         $response = $this->getResponse();
 
         try {
+            $requestParamsResult = $this->processRequestParams($data);
+            if($requestParamsResult instanceof JsonModel){
+                return $requestParamsResult;
+            }
             $beach = $this->beachService->addBeach($data);
             $responseBody['entity'] = $beach;
             $response->setStatusCode(201);

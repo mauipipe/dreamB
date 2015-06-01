@@ -119,6 +119,9 @@ class Module
         return array(
             'invokables' => array(
                 'imageLinkCreator' => 'API\Controller\Plugin\ImageLinkCreator'
+            ),
+            'factories' => array(
+                'restParamsValidator'=>'API\Controller\Plugin\RestParamsValidatorFactory'
             )
         );
     }
