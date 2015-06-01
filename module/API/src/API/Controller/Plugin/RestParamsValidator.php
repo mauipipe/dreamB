@@ -18,26 +18,29 @@ class RestParamsValidator extends AbstractPlugin
         $this->apiValidationParamsConfig = $apiValidationParamsConfig;
     }
 
+    /**
+     * @param $data
+     * @param bool $allowEmpty
+     * @return bool
+     */
     public function isValid($data, $allowEmpty = false)
     {
+
+        if ($allowEmpty && sizeof($data) === 0) {
+            return true;
+        }
+
         $controller = $this->getController();
         $request = $controller->getRequest();
         $method = $request->getMethod();
-
-        if ($allowEmpty && sizeof($data) === 0) {
-            var_dump($data);
-            return true;
-        }
 
         $controllerClass = get_class($controller);
         if (array_key_exists($controllerClass, $this->apiValidationParamsConfig)) {
             $apiValidationParams = $this->apiValidationParamsConfig[$controllerClass][$method];
 
-            $paramDiff = $this->getDiff($data, $apiValidationParams);
-            if (sizeof($paramDiff) > 0) {
-                $this->errors['malformed_params'] =  $paramDiff;
+            if($this->hasMalformedParams($data,$apiValidationParams)){
                 return false;
-            };
+            }
 
             if (isset($apiValidationParams['filter_class'])) {
                 $filter = new $apiValidationParams['filter_class']();
@@ -49,6 +52,22 @@ class RestParamsValidator extends AbstractPlugin
             }
         }
         return true;
+    }
+
+    /**
+     * @param $data
+     * @param $apiValidationPar
+     * @return bool
+     */
+    private function hasMalformedParams($data,$apiValidationPar){
+
+        $paramDiff = $this->getDiff($data, $apiValidationPar);
+
+        if (sizeof(array_unique($paramDiff)) > 0) {
+            $this->errors['malformed_params'] =  $paramDiff;
+            return false;
+        };
+        return false;
     }
 
     /**

@@ -14,14 +14,12 @@ Feature:
     {
         "id": 1,
         "name": "San Francisco",
-        "slug": "san-francisco",
-        "beaches": {}
+        "slug": "san-francisco"
     },
     {
         "id": 2,
         "name": "Palermo",
-        "slug": "palermo",
-        "beaches": {}
+        "slug": "palermo"
     }
 ]
     """

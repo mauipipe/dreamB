@@ -26,6 +26,7 @@ class CityService
 
         foreach ($cities as $city) {
             $cityData = $this->cityHydrator->extract($city);
+            unset($cityData['beaches']);
             $result[] = $cityData;
         }
 

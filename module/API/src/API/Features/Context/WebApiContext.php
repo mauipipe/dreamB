@@ -2,11 +2,11 @@
 
 namespace API\Features\Context;
 
+use Behat\Behat\Context\BehatContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Behat\Context\BehatContext;
-use Buzz\Message\Request;
 use Buzz\Browser;
+use Guzzle\Http\Client;
 
 /**
  * Provides web API description definitions.
@@ -16,6 +16,8 @@ use Buzz\Browser;
 class WebApiContext extends BehatContext
 {
     private $browser;
+    private $guzzleResponse;
+    private $guzzleRequest;
     private $baseUrl;
     private $authorization;
     private $placeHolders = array();
@@ -24,7 +26,7 @@ class WebApiContext extends BehatContext
     /**
      * Initializes context.
      *
-     * @param string  $baseUrl base API url
+     * @param string $baseUrl base API url
      * @param Browser $browser browser instance (optional)
      */
     public function __construct($baseUrl, Browser $browser = null)
@@ -49,50 +51,49 @@ class WebApiContext extends BehatContext
     public function iAmAuthenticatingAs($username, $password)
     {
         $this->removeHeader('Authorization');
-        $this->authorization = base64_encode($username.':'.$password);
-        $this->addHeader('Authorization: Basic '.$this->authorization);
+        $this->authorization = base64_encode($username . ':' . $password);
+        $this->addHeader('Authorization: Basic ' . $this->authorization);
     }
 
     /**
      * Sets a HTTP Header.
      *
-     * @param string $name  header name
+     * @param string $name header name
      * @param string $value header value
      *
      * @Given /^I set header "([^"]*)" with value "([^"]*)"$/
      */
     public function iSetHeaderWithValue($name, $value)
     {
-        $this->addHeader($name.': '.$value);
+        $this->addHeader($name . ': ' . $value);
     }
 
     /**
      * Sends HTTP request to specific relative URL.
      *
      * @param string $method request method
-     * @param string $url    relative url
+     * @param string $url relative url
      *
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)"$/
      */
     public function iSendARequest($method, $url)
     {
-        $url = $this->baseUrl.'/'.ltrim($this->replacePlaceHolder($url), '/');
-
+        $url = $this->baseUrl . '/' . ltrim($this->replacePlaceHolder($url), '/');
         $this->browser->call($url, $method, $this->getHeaders());
     }
 
     /**
      * Sends HTTP request to specific URL with field values from Table.
      *
-     * @param string    $method request method
-     * @param string    $url    relative url
-     * @param TableNode $post   table of post values
+     * @param string $method request method
+     * @param string $url relative url
+     * @param TableNode $post table of post values
      *
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with values:$/
      */
     public function iSendARequestWithValues($method, $url, TableNode $post)
     {
-        $url    = $this->baseUrl.'/'.ltrim($this->replacePlaceHolder($url), '/');
+        $url = $this->baseUrl . '/' . ltrim($this->replacePlaceHolder($url), '/');
         $fields = array();
 
         foreach ($post->getRowsHash() as $key => $val) {
@@ -105,15 +106,15 @@ class WebApiContext extends BehatContext
     /**
      * Sends HTTP request to specific URL with raw body from PyString.
      *
-     * @param string       $method request method
-     * @param string       $url    relative url
+     * @param string $method request method
+     * @param string $url relative url
      * @param PyStringNode $string request body
      *
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with body:$/
      */
     public function iSendARequestWithBody($method, $url, PyStringNode $string)
     {
-        $url    = $this->baseUrl.'/'.ltrim($this->replacePlaceHolder($url), '/');
+        $url = $this->baseUrl . '/' . ltrim($this->replacePlaceHolder($url), '/');
         $string = $this->replacePlaceHolder(trim($string));
 
         $this->browser->call($url, $method, $this->getHeaders(), $string);
@@ -122,20 +123,47 @@ class WebApiContext extends BehatContext
     /**
      * Sends HTTP request to specific URL with form data from PyString.
      *
-     * @param string       $method request method
-     * @param string       $url    relative url
+     * @param string $method request method
+     * @param string $url relative url
      * @param PyStringNode $string request body
      *
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with form data:$/
      */
     public function iSendARequestWithFormData($method, $url, PyStringNode $string)
     {
-        $url    = $this->baseUrl.'/'.ltrim($this->replacePlaceHolder($url), '/');
+        $url = $this->baseUrl . '/' . ltrim($this->replacePlaceHolder($url), '/');
         $string = $this->replacePlaceHolder(trim($string));
 
         parse_str(implode('&', explode("\n", $string)), $fields);
 
         $this->browser->submit($url, $fields, $method, $this->getHeaders());
+    }
+
+    /**
+     * Sends HTTP request to specific URL with field values from Table.
+     *
+     * @param string $method request method
+     * @param string $url relative url
+     * @param TableNode $post table of post values
+     *
+     * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with image:$/
+     */
+    public function iSendARequestWithImage($method, $url, TableNode $post)
+    {
+        $url = $this->baseUrl . '/' . ltrim($this->replacePlaceHolder($url), '/sdsd');
+        $fields = array();
+
+        foreach ($post->getRowsHash() as $key => $val) {
+            $fields[$key] = $this->replacePlaceHolder($val);
+        }
+
+        $guzzle = new Client();
+        $this->guzzleRequest = $guzzle->post($url)
+            ->addPostFields($fields)
+            ->addPostFile('file', __DIR__ . '/../Fixtures/images/dummy.png')
+            ->addHeaders($this->getHeaders());
+
+        $this->guzzleResponse = $this->guzzleRequest->send();
     }
 
     /**
@@ -147,7 +175,13 @@ class WebApiContext extends BehatContext
      */
     public function theResponseCodeShouldBe($code)
     {
-        \PHPUnit_Framework_Assert::assertSame(intval($code), $this->browser->getLastResponse()->getStatusCode());
+
+        if (isset($this->guzzleResponse)) {
+            $statusCode = $this->guzzleResponse->getStatusCode();
+        }else{
+            $statusCode = $this->browser->getLastResponse()->getStatusCode();
+        }
+        \PHPUnit_Framework_Assert::assertSame(intval($code), $statusCode);
     }
 
     /**
@@ -159,7 +193,7 @@ class WebApiContext extends BehatContext
      */
     public function theResponseShouldContain($text)
     {
-        \PHPUnit_Framework_Assert::assertRegExp('/'.preg_quote($text).'/', $this->browser->getLastResponse()->getContent());
+        \PHPUnit_Framework_Assert::assertRegExp('/' . preg_quote($text) . '/', $this->browser->getLastResponse()->getContent());
     }
 
     /**
@@ -171,7 +205,7 @@ class WebApiContext extends BehatContext
      */
     public function theResponseShouldNotContain($text)
     {
-        \PHPUnit_Framework_Assert::assertNotRegExp('/'.preg_quote($text).'/', $this->browser->getLastResponse()->getContent());
+        \PHPUnit_Framework_Assert::assertNotRegExp('/' . preg_quote($text) . '/', $this->browser->getLastResponse()->getContent());
     }
 
     /**
@@ -183,12 +217,17 @@ class WebApiContext extends BehatContext
      */
     public function theResponseShouldContainJson(PyStringNode $jsonString)
     {
+        if (isset($this->guzzleResponse)) {
+            $content = $this->guzzleResponse->json();
+        }else{
+            $content = json_decode($this->browser->getLastResponse()->getContent(), true);
+        }
         $etalon = json_decode($this->replacePlaceHolder($jsonString->getRaw()), true);
-        $actual = json_decode($this->browser->getLastResponse()->getContent(), true);
+        $actual = $content;
 
         if (null === $etalon) {
             throw new \RuntimeException(
-                "Can not convert etalon to json:\n".$this->replacePlaceHolder($jsonString->getRaw())
+                "Can not convert etalon to json:\n" . $this->replacePlaceHolder($jsonString->getRaw())
             );
         }
 
@@ -206,14 +245,28 @@ class WebApiContext extends BehatContext
      */
     public function printResponse()
     {
-        $request  = $this->browser->getLastRequest();
-        $response = $this->browser->getLastResponse();
+
+        if (isset($this->guzzleResponse)) {
+            $content = $this->guzzleResponse->getBody();
+            $status = $this->guzzleResponse->getStatusCode();
+            $url = $this->guzzleResponse->getEffectiveUrl();
+            $method = $this->guzzleRequest->getMethod();
+        }else{
+            $request = $this->browser->getLastRequest();
+            $response = $this->browser->getLastResponse();
+
+            $content = $response->getContent();
+            $status = $response->getStatusCode();
+            $url = $request->getUrl();
+            $method = $request->getMethod();
+        }
+
 
         $this->printDebug(sprintf("%s %s => %d:\n%s",
-            $request->getMethod(),
-            $request->getUrl(),
-            $response->getStatusCode(),
-            $response->getContent()
+            $method,
+            $url,
+            $status,
+            $content
         ));
     }
 
@@ -233,7 +286,7 @@ class WebApiContext extends BehatContext
      * you can specify placeholders, which will
      * be replaced in URL, request or response body.
      *
-     * @param string $key   token name
+     * @param string $key token name
      * @param string $value replace value
      */
     public function setPlaceHolder($key, $value)

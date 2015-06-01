@@ -21,6 +21,7 @@ class CommentController extends AbstractBaseRestController
 
     public function create($data)
     {
+
         $responseBody = array();
         $response = $this->getResponse();
         try {
@@ -29,12 +30,15 @@ class CommentController extends AbstractBaseRestController
             if($requestParamsResult instanceof JsonModel){
                 return $requestParamsResult;
             }
+
             $comment = $this->commentService->addComment($data);
+
             $files = $this->getRequest()->getFiles()->toArray();
             $this->imageService->rename($comment['id']);
             if (!$this->imageService->isReceived($files['file']['name'])) {
                 throw new \ImageNotFoundException('The image is not saved');
             }
+
             $formattedComment = $this->imageLinkCreator()->addCommentImageLink(array($comment));
             $responseBody['entity'] = $formattedComment[0];
             $response->setStatusCode(201);

@@ -112,7 +112,7 @@ return array(
                 ),
                 'filter_class'   => 'API\Validator\CommentInputFilter'
             ),
-            'GET' => array(
+            'GET'  => array(
                 'allowed_params' => array(
                     'city_id'
                 )
@@ -121,10 +121,13 @@ return array(
         ),
 
         'API\Controller\BeachController'   => array(
-            'allowed_params' => array(
-                'name', 'city_id'
+            'POST' => array(
+                'allowed_params' => array(
+                    'name', 'city_id'
+                ),
+                'filter_class'   => 'API\Validator\BeachInputFilter'
             ),
-            'filter_class'   => 'API\Validator\BeachInputFilter'
+            'GET'  => array()
         )
 
     )

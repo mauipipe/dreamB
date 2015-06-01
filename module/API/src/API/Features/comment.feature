@@ -5,22 +5,33 @@ Feature:
 
   @comment
   Scenario: add a new comment
-    Given I have 2 'City' on my system
-    Given I send a POST request to "/beach" with values:
-      | city_id | 1          |
-      | name    | Boca Raton |
+    Given I have 2 'Beach' on my system
     And there are 0 'Comment' in the system
-    And 0 saved images
-    When I send a POST request to "/comment" with values:
+    When I send a POST request to "/comment" with image:
       | beach_id    | 1                                      |
       | name        | Gandalf                                |
       | lastName    | Grey                                   |
       | description | beautiful beach carved betwen 2 cliffs |
     Then the response code should be 201
     And the response should contain json:
+    """
+    { "entity": {
+        "id": 1,
+        "name": "Gandalf",
+        "lastName": "Grey",
+        "description": "beautiful beach carved betwen 2 cliffs",
+        "beach": {
+            "id": 1,
+            "name": "Bay Beach",
+            "city": "San Francisco"
+        },
+        "image": "http://dream-beach.local/image/comment/1.jpg"
+    }
+}
+    """
     And there are 1 'Comment' in the system
 
-  @comment @wip
+  @comment
   Scenario: display a list of comments
     Given I have 2 'Comment' on my system
     When I send a GET request to "/comment"
@@ -38,7 +49,7 @@ Feature:
             "name": "Bay Beach",
             "city": "San Francisco"
         },
-        "image": "http://.dream-beach.local/image/comment/1.jpg"
+        "image": "http://dream-beach.local/image/comment/1.jpg"
     },
     {
         "id": 2,
@@ -50,7 +61,7 @@ Feature:
             "name": "Palermo Beach",
             "city": "Palermo"
         },
-        "image": "http://.dream-beach.local/image/comment/2.jpg"
+        "image": "http://dream-beach.local/image/comment/2.jpg"
     }
 ]
     """
@@ -74,7 +85,7 @@ Feature:
             "name": "Palermo Beach",
             "city": "Palermo"
         },
-        "image": "http://.dream-beach.local/image/comment/2.jpg"
+        "image": "http://dream-beach.local/image/comment/2.jpg"
     }
 ]
     """

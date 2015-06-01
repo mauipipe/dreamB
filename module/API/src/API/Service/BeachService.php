@@ -54,6 +54,7 @@ class BeachService
         $result = array();
         foreach($beaches as $beach){
             $beachData = $this->doctrineHydrator->extract($beach);
+            unset($beachData['comments']);
             $result[] = $beachData;
         }
 

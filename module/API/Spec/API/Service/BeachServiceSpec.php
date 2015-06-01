@@ -37,11 +37,16 @@ class BeachServiceSpec extends ObjectBehavior
             ),
             'name' => 'Coral bay'
         );
+        $result = array(
+            'city' => 'Miami',
+            'name' => 'Coral bay',
+        );
 
         $doctrineHydrator->hydrate($beachData, new Beach())->shouldBeCalled()->willReturn($beach);
         $beachRepository->addBeach($beach)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
-        $this->addBeach($requestData);
+        $doctrineHydrator->extract($beach)->willReturn($result);
+        $this->addBeach($requestData)->shouldBeEqualTo($result);
 
     }
 
@@ -56,7 +61,7 @@ class BeachServiceSpec extends ObjectBehavior
             'id'   => 1,
             'name' => 'Maria Beach',
             'slug' => 'maria-beach',
-            'city'=> 'Palermo'
+            'city' => 'Palermo'
         );
 
         $beachRepository->findAll()->shouldBeCalled()->willReturn(array($beach));

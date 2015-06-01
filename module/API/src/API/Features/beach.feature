@@ -12,7 +12,7 @@ Feature:
     Then the response code should be 201
     And there are 1 'Beach' in the system
 
-  @beach @wip
+  @beach
   Scenario: display a list of beaches
     Given I have 2 'Beach' on my system
     When I send a GET request to "/beach"
@@ -24,15 +24,13 @@ Feature:
         "id": 1,
         "name": "Bay Beach",
         "slug": "bay-beach",
-        "city": "San Francisco",
-        "comments": {}
+        "city": "San Francisco"
     },
     {
         "id": 2,
         "name": "Palermo Beach",
         "slug": "palermo-beach",
-        "city": "Palermo",
-        "comments": {}
+        "city": "Palermo"
     }
 ]
     """
