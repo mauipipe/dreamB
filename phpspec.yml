@@ -1,8 +1,13 @@
 formatter.name: progress
 
 suites:
-    Search:
+    API:
         namespace:    API
         spec_prefix:  Spec
         src_path:     'module/API/src/'
         spec_path:    'module/API/'
+    Application:
+        namespace:    Application
+        spec_prefix:  Spec
+        src_path:     'module/Application/src/'
+        spec_path:    'module/Application/'

@@ -25,7 +25,7 @@ class ImageServiceSpec extends ObjectBehavior
         $filterName = 'rename';
         $filterValues = array(
             'target'    => self::PATH_EXAMPLE . '/' . $fileName . '.jpg',
-            'overwrite' => false
+            'overwrite' => true
         );
         $httpAdapter->addFilter($filterName, $filterValues)->shouldBeCalled();
         $this->rename($fileName);
