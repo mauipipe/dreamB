@@ -1,10 +1,16 @@
 <div class="content">
-    <div ng-repeat="comment in comments">
-        <h3>name:{( comment.name + comment.last_name)}</h3>
-        <div class="beach-detail">
-            Nome spiaggia: {( comment.beach.name)}<br>
-            Luogo: {( comment.beach.city)}
+    <div ng-repeat="comment in comments" class="col-lg-offset-4 col-lg-8">
+        <div class="col-lg-4">
+            <img ng-src="{( comment.image )}" class="img-responsive"/>
         </div>
-        <p>{( comment.description)}</p>
+        <div class="col-lg-8">
+            <h3>name:{( comment.name + comment.last_name)}</h3>
+
+            <div class="beach-detail">
+                Nome spiaggia: {( comment.beach.name)}<br>
+                Luogo: {( comment.beach.city)}
+            </div>
+            <p>{( comment.description)}</p>
+        </div>
     </div>
 </div>
