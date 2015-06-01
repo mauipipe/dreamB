@@ -45,4 +45,12 @@ class Module
             )
         );
     }
+
+    public function getControllerPluginConfig(){
+        return array(
+            'invokables' => array(
+                'imageLinkCreator' => 'Application\Controller\Plugin\ImageLinkCreator'
+            )
+        );
+    }
 }
