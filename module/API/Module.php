@@ -29,6 +29,16 @@ class Module
 
     public function getJsonModelError($e)
     {
+        $routeMatch = $e->getRouteMatch();
+        if(is_null($routeMatch)){
+            return;
+        }
+        $controllerName = $routeMatch->getParam('controller');
+
+        if(is_null($controllerName) && (false === strpos('API',$controllerName))){
+            return;
+        }
+
         $error = $e->getError();
         if (!$error) {
             return;
