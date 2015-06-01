@@ -42,6 +42,10 @@ class BeachService
         $beach->setSlug(Slugficator::createSlug($beach->getName()));
         $this->beachRepository->addBeach($beach);
         $this->entityManager->flush();
+
+        $beachData = $this->doctrineHydrator->extract($beach);
+        unset($beachData['comments']);
+        return $beachData;
     }
 
     public function getBeaches()

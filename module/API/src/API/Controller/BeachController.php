@@ -28,7 +28,8 @@ class BeachController extends AbstractRestfulController
         $response = $this->getResponse();
 
         try {
-            $this->beachService->addBeach($data);
+            $beach = $this->beachService->addBeach($data);
+            $responseBody['entity'] = $beach;
             $response->setStatusCode(201);
         } catch (\Exception $e) {
             $response->setStatusCode(500);
