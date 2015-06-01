@@ -30,12 +30,12 @@ class Module
     public function getJsonModelError($e)
     {
         $routeMatch = $e->getRouteMatch();
-        if(is_null($routeMatch)){
+        if (is_null($routeMatch)) {
             return;
         }
         $controllerName = $routeMatch->getParam('controller');
 
-        if(is_null($controllerName) && (false === strpos('API',$controllerName))){
+        if (is_null($controllerName) && (false === strpos('API', $controllerName))) {
             return;
         }
 
@@ -104,7 +104,7 @@ class Module
         return array(
             'invokables' => array(
                 'comment.strategy' => 'API\Service\Strategy\CommentStrategy',
-                'beach.strategy' => 'API\Service\Strategy\BeachStrategy'
+                'beach.strategy'   => 'API\Service\Strategy\BeachStrategy'
             ),
             'factories'  => array(
                 'beach.service'   => 'API\Service\BeachServiceFactory',
@@ -114,5 +114,13 @@ class Module
         );
     }
 
+    public function getControllerPluginConfig()
+    {
+        return array(
+            'invokables' => array(
+                'imageLinkCreator' => 'API\Controller\Plugin\ImageLinkCreator'
+            )
+        );
+    }
 
 }
