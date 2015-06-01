@@ -28,9 +28,8 @@ class CommentController extends AbstractRestfulController
 
             $httpAdapter = new Http();
             $httpAdapter->setDestination('/srv/apps/dreamBeach/data/pics');
-            $ext = pathinfo($files['file']['name'], PATHINFO_EXTENSION);
             $httpAdapter->addFilter('rename', array(
-                    'target'    => '/srv/apps/dreamBeach/data/pics/' . $comment['id'] . '.' . $ext,
+                    'target'    => '/srv/apps/dreamBeach/data/pics/' . $comment['id'] . '.jpg',
                     'overwrite' => false
                 )
             );
@@ -38,7 +37,8 @@ class CommentController extends AbstractRestfulController
             if (!$httpAdapter->receive($files['file']['name'])) {
                 throw new \RuntimeException(sprintf('Error saving the image: %s',implode(',', $httpAdapter->getErrors())));
             }
-            $responseBody['entity'] = $comment;
+            $formattedComment = $this->imageLinkCreator()->addCommentImageLink(array($comment));
+            $responseBody['entity'] = $formattedComment[0];
             $response->setStatusCode(201);
         } catch (\Exception $e) {
             $response->setStatusCode(500);
