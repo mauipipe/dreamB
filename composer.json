@@ -11,7 +11,8 @@
     "doctrine/doctrine-orm-module": "0.9.*",
     "phpro/zf-doctrine-hydration-module":"~0.1",
     "cocur/slugify":"v1.1",
-    "zfr/zfr-cors":"1.*"
+    "zfr/zfr-cors":"1.*",
+    "hrevert/ht-img-module": "0.4.*"
   },
   "require-dev": {
     "zendframework/zend-developer-tools": "dev-master",
@@ -35,7 +36,8 @@
   },
   "autoload": {
     "psr-0": {
-      "API": "module/API/src/"
+      "API": "module/API/src/",
+      "Application": "module/Application/src/"
     }
   }
 }
