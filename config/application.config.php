@@ -12,6 +12,7 @@ return array(
         'DoctrineORMModule',
         'Phpro\\DoctrineHydrationModule',
         'ZfrCors',
+        'HtImgModule',
         'API'
     ),
     'module_listener_options' => array(

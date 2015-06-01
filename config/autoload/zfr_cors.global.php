@@ -10,10 +10,7 @@ return array(
          /**
           * Set the list of allowed origins domain with protocol.
           */
-        'allowed_origins' => array(
-            'http://api.dream-beach.local',
-            'http://dream-beach.local'
-        ),
+        'allowed_origins' => array('*'),
 
          /**
           * Set the list of HTTP verbs.
@@ -24,13 +21,15 @@ return array(
           * Set the list of headers. This is returned in the preflight request to indicate
           * which HTTP headers can be used when making the actual request
           */
-         // 'allowed_headers' => array('Authorization'),
+        'allowed_headers' => array(
+            //'Authorization'
+        ),
 
          /**
           * Set the max age of the preflight request in seconds. A non-zero max age means
           * that the preflight will be cached during this amount of time
           */
-         // 'max_age' => 120,
+          'max_age' => 120,
 
          /**
           * Set the list of exposed headers. This is a whitelist that authorize the browser
