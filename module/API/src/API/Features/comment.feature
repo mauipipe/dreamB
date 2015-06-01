@@ -17,18 +17,12 @@ Feature:
       | lastName    | Grey                                   |
       | description | beautiful beach carved betwen 2 cliffs |
     Then the response code should be 201
+    And the response should contain json:
     And there are 1 'Comment' in the system
 
-  @comment
+  @comment @wip
   Scenario: display a list of comments
-    Given I send a POST request to "/beach" with values:
-      | city_id | 1          |
-      | name    | Boca Raton |
-    And I send a POST request to "/comment" with values:
-      | beach_id    | 1                                      |
-      | name        | Gandalf                                |
-      | lastName    | Grey                                   |
-      | description | beautiful beach carved betwen 2 cliffs |
+    Given I have 2 'Comment' on my system
     When I send a GET request to "/comment"
     Then the response code should be 200
     And the response should contain json:
@@ -36,16 +30,29 @@ Feature:
    [
     {
         "id": 1,
-        "name": "Gandalf",
-        "lastName": "Grey",
-        "description": "beautiful beach carved betwen 2 cliffs",
+        "name": "Gus",
+        "lastName": "Mc Duck",
+        "description": "test",
         "beach": {
             "id": 1,
-            "name": "Boca Raton",
+            "name": "Bay Beach",
             "city": "San Francisco"
-        }
+        },
+        "image": "http://.dream-beach.local/image/comment/1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Mimmo",
+        "lastName": "Rossi",
+        "description": "test",
+        "beach": {
+            "id": 2,
+            "name": "Palermo Beach",
+            "city": "Palermo"
+        },
+        "image": "http://.dream-beach.local/image/comment/2.jpg"
     }
-  ]
+]
     """
 
   @comment
@@ -56,7 +63,7 @@ Feature:
     Then the response code should be 200
     And the response should contain json:
     """
- [
+  [
     {
         "id": 2,
         "name": "Mimmo",
@@ -66,7 +73,8 @@ Feature:
             "id": 2,
             "name": "Palermo Beach",
             "city": "Palermo"
-        }
+        },
+        "image": "http://.dream-beach.local/image/comment/2.jpg"
     }
 ]
     """
