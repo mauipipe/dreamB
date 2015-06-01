@@ -20,8 +20,7 @@ class ImageServiceFactory implements \Zend\ServiceManager\FactoryInterface
         $config = $serviceLocator->get('Config');
         $imgDefaultFolder = $config['base_image_path'];
 
-        $httpAdapter = new Http();
-
-        return new ImageService($httpAdapter, $config);
+        $httpAdapter = new Http($imgDefaultFolder);
+        return new ImageService($httpAdapter, $imgDefaultFolder);
     }
 }

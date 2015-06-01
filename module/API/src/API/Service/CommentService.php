@@ -38,6 +38,7 @@ class CommentService
         }
         $this->commentRepository->addComment($comment);
         $this->entityManager->flush();
+        return $this->doctrineHydrator->extract($comment);
     }
 
     public function getComments(Parameters $params)

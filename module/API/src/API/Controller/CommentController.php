@@ -3,6 +3,7 @@
 namespace API\Controller;
 
 use API\Service\CommentService;
+use Application\Service\ImageService;
 use Zend\File\Transfer\Adapter\Http;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -11,10 +12,12 @@ class CommentController extends AbstractRestfulController
 {
 
     private $commentService;
+    private $imageService;
 
-    public function __construct(CommentService $commentService)
+    public function __construct(CommentService $commentService, ImageService $imageService)
     {
         $this->commentService = $commentService;
+        $this->imageService = $imageService;
     }
 
     public function create($data)
@@ -26,17 +29,11 @@ class CommentController extends AbstractRestfulController
 
             $files = $this->getRequest()->getFiles()->toArray();
 
-            $httpAdapter = new Http();
-            $httpAdapter->setDestination('/srv/apps/dreamBeach/data/pics');
-            $httpAdapter->addFilter('rename', array(
-                    'target'    => '/srv/apps/dreamBeach/data/pics/' . $comment['id'] . '.jpg',
-                    'overwrite' => false
-                )
-            );
-
-            if (!$httpAdapter->receive($files['file']['name'])) {
-                throw new \RuntimeException(sprintf('Error saving the image: %s',implode(',', $httpAdapter->getErrors())));
+            $this->imageService->rename($comment['id']);
+            if (!$this->imageService->isReceived($files['file']['name'])) {
+                throw new \RuntimeException('Error saving the image');
             }
+
             $formattedComment = $this->imageLinkCreator()->addCommentImageLink(array($comment));
             $responseBody['entity'] = $formattedComment[0];
             $response->setStatusCode(201);

@@ -46,10 +46,12 @@ class Module
         );
     }
 
-    public function getControllerPluginConfig(){
+
+    public function getServiceConfig()
+    {
         return array(
-            'invokables' => array(
-                'imageLinkCreator' => 'Application\Controller\Plugin\ImageLinkCreator'
+            'factories' => array(
+                'application_image.service' => 'Application\Service\ImageServiceFactory'
             )
         );
     }

@@ -44,10 +44,22 @@ class CommentServiceSpec extends ObjectBehavior
             'description' => 'marvelous'
         );
 
+        $persistedCommentData = array(
+            'beach'       => array(
+                'id' => 1,
+                'name'=>'palma de majorca'
+            ),
+            'name'        => 'Gandalf',
+            'last_name'   => 'Grey',
+            'description' => 'marvelous',
+        );
+
+
         $doctrineHydrator->hydrate($commentData, new Comment())->shouldBeCalled()->willReturn($comment);
-        $commentRepository->addComment($comment)->shouldBeCalled();
+        $commentRepository->addComment($comment)->shouldBeCalled()->willReturn($comment);
+        $doctrineHydrator->extract($comment)->shouldBeCalled()->willReturn($persistedCommentData);
         $entityManager->flush()->shouldBeCalled();
-        $this->addComment($requestData);
+        $this->addComment($requestData)->shouldReturn($persistedCommentData);
     }
 
     function it_return_a_list_of_comments(

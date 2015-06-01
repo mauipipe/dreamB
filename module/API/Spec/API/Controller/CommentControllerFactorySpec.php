@@ -3,6 +3,7 @@
 namespace Spec\API\Controller;
 
 use API\Service\CommentService;
+use Application\Service\ImageService;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Zend\Mvc\Controller\ControllerManager;
@@ -18,11 +19,13 @@ class CommentControllerFactorySpec extends ObjectBehavior
     function it_create_a_beach_service(
         ControllerManager $controllerManager,
         ServiceManager $serviceManager,
-        CommentService $commentService
+        CommentService $commentService,
+        ImageService $imageService
     )
     {
         $controllerManager->getServiceLocator()->shouldBeCalled()->willReturn($serviceManager);
         $serviceManager->get('comment.service')->shouldBeCalled()->willReturn($commentService);
+        $serviceManager->get('application_image.service')->shouldBeCalled()->willReturn($imageService);
         $this->createService($controllerManager)->shouldBeAnInstanceOf('API\Controller\CommentController');
     }
 }

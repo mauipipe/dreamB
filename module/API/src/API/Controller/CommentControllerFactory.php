@@ -18,6 +18,7 @@ class CommentControllerFactory implements FactoryInterface
     {
         $sm = $serviceLocator->getServiceLocator();
         $commentService = $sm->get('comment.service');
-        return new CommentController($commentService);
+        $imageService = $sm->get('application_image.service');
+        return new CommentController($commentService, $imageService);
     }
 }
