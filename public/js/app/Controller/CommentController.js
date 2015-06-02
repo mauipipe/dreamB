@@ -4,13 +4,15 @@
 'use strict';
 
 angular.module('dream-beach')
-    .controller('CommentController', ['$scope', 'CommentResource', 'CityResource', 'BeachResource', '$modal', '$rootScope', '$http',
-        function ($scope, $commentResource, $cityResource, $beachResource, $modal, $rootScope, $http) {
+    .controller('CommentController', ['$scope', 'CommentResource', 'CityResource', 'BeachResource', '$modal', '$rootScope', 'Helpers',
+        function ($scope, $commentResource, $cityResource, $beachResource, $modal, $rootScope, $helpers) {
 
             $scope.comments = $commentResource.query();
             $scope.cities = $cityResource.query();
-            $scope.beaches = $beachResource.query();
+            $scope.beaches = $beachResource.getBeaches().query();
             $scope.isBeachFormActive = false;
+
+            $helpers.getEndPoint();
 
             $scope.filterByCity = function () {
                 var value = $scope.cityOption;
@@ -57,23 +59,12 @@ angular.module('dream-beach')
                     city_id: beachForm.city
                 };
 
-                $http({
-                    url: Config.getEndPoint() + '/beach',
-                    method: "POST",
-                    data: beach,
-                    transformRequest: function (obj) {
-                        var str = [];
-                        for (var p in obj)
-                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                        return str.join("&");
-                    },
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
-                }).success(function (data, status, headers, config) {
+               $beachResource.saveBeach(beach).success(function (data, status, headers, config) {
                     $scope.beaches.push(data.entity);
                     $scope.isBeachFormActive = false
                 }).error(function (data, status, headers, config) {
                     console.log(status, headers);
                 });
-            }
+            };
         }
     ]);
