@@ -69,4 +69,4 @@ mv composer.phar /usr/local/bin/composer
 sudo apt-get install -y node npm
 
 # install Gulp
-sudo npm install -g gulp bower gulp-uglify
+sudo npm install -g bower
