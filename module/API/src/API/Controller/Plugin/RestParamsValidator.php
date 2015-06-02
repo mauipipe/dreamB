@@ -38,7 +38,9 @@ class RestParamsValidator extends AbstractPlugin
         if (array_key_exists($controllerClass, $this->apiValidationParamsConfig)) {
             $apiValidationParams = $this->apiValidationParamsConfig[$controllerClass][$method];
 
-            if($this->hasMalformedValues($data,$apiValidationParams)){
+            if (($method === 'POST' || $method === 'PUT' || $method === 'PATCH') &&
+                $this->hasMalformedValues($data, $apiValidationParams)
+            ) {
                 return false;
             }
 
@@ -97,7 +99,7 @@ class RestParamsValidator extends AbstractPlugin
     private function hasMalformedValues($data, $apiValidationParams)
     {
         foreach ($data as $value) {
-            if(in_array($value,$apiValidationParams['forbidden_values'])){
+            if (in_array($value, $apiValidationParams['forbidden_values'])) {
                 $this->errors['invalid_value'][] = $value;
                 return true;
             }
