@@ -7,7 +7,13 @@ namespace API\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
+
+
 class ImageLinkCreator extends AbstractPlugin {
+
+    const PLACEHOLDER_JPG = 'placeholder.jpg';
+
+    const DEFAULT_HOST = 'dream-beach.local';
 
     public function addCommentImageLink(array $comments)
     {
@@ -15,7 +21,14 @@ class ImageLinkCreator extends AbstractPlugin {
         $imageRootPath = $hostName . "/image/comment/";
 
         $result = array_map(function($item) use ($imageRootPath){
-            $item['image'] = $imageRootPath . $item['id'] . '.jpg';
+            $imageName = $item['id'] . '.jpg';
+
+            $imageInfo = @getimagesize($imageRootPath . $item['id'] . '.jpg');
+            if(false === $imageInfo){
+                $imageName = self::PLACEHOLDER_JPG;
+            }
+
+            $item['image'] = $imageRootPath . $imageName;
             return $item;
         },$comments);
 
@@ -26,7 +39,7 @@ class ImageLinkCreator extends AbstractPlugin {
     private function getHostname()
     {
         $I_controller = $this->getController();
-        $host = 'localhost';
+        $host = self::DEFAULT_HOST;
         if(isset($I_controller)){
             $I_request = $I_controller->getRequest();
             $I_uri = $I_request->getUri();
