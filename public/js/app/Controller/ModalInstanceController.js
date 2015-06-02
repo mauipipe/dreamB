@@ -3,8 +3,8 @@
  */
 
 angular.module('dream-beach')
-    .controller('ModalInstanceController', ['$scope', '$modalInstance', 'beaches', 'cities', 'Upload','$rootScope',
-        function ($scope, $modalInstance, beaches, cities, Upload,$rootScope) {
+    .controller('ModalInstanceController', ['$scope', '$modalInstance', 'beaches', 'cities', 'Upload','Helpers',
+        function ($scope, $modalInstance, beaches, cities, Upload,$helpers) {
 
             $scope.beaches = beaches;
             $scope.cities = cities;
@@ -28,7 +28,7 @@ angular.module('dream-beach')
                 }
 
                 Upload.upload({
-                    url: Config.getEndPoint() + '/comment',
+                    url: $helpers.getEndPoint() + '/comment',
                     fields: comment,
                     file: file
                 }).success(function (data, status, headers, config) {
