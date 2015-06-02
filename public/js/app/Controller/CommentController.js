@@ -4,8 +4,8 @@
 'use strict';
 
 angular.module('dream-beach')
-    .controller('CommentController', ['$scope', 'CommentResource', 'CityResource', 'BeachResource', '$modal', '$rootScope','$http',
-        function ($scope, $commentResource, $cityResource, $beachResource, $modal, $rootScope,$http) {
+    .controller('CommentController', ['$scope', 'CommentResource', 'CityResource', 'BeachResource', '$modal', '$rootScope', '$http',
+        function ($scope, $commentResource, $cityResource, $beachResource, $modal, $rootScope, $http) {
 
             $scope.comments = $commentResource.query();
             $scope.cities = $cityResource.query();
@@ -22,8 +22,7 @@ angular.module('dream-beach')
             });
 
             $scope.open = function (size) {
-
-                var modalInstance = $modal.open({
+                $modal.open({
                     animation: $scope.animationsEnabled,
                     templateUrl: 'commentForm.html',
                     controller: 'ModalInstanceController',
@@ -44,33 +43,36 @@ angular.module('dream-beach')
                 if ($scope.isBeachFormActive === false) {
                     $scope.isBeachFormActive = true;
                 } else {
-                    $scope.isBeachFormActive = false
+                    $scope.isBeachFormActive = false;
                 }
             }
 
             $scope.saveBeach = function (beachForm) {
 
-                var beach = {
-                    name:beachForm.name,
-                    city_id:beachForm.city
+                if(typeof  beachForm.beachName === "undefined"){
+                    return;
                 }
+                var beach = {
+                    name: beachForm.beachName,
+                    city_id: beachForm.city
+                };
 
                 $http({
                     url: Config.getEndPoint() + '/beach',
                     method: "POST",
                     data: beach,
-                    transformRequest: function(obj) {
+                    transformRequest: function (obj) {
                         var str = [];
-                        for(var p in obj)
+                        for (var p in obj)
                             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
                         return str.join("&");
                     },
-                    headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
                 }).success(function (data, status, headers, config) {
                     $scope.beaches.push(data.entity);
                     $scope.isBeachFormActive = false
                 }).error(function (data, status, headers, config) {
-                    console.log(status,headers);
+                    console.log(status, headers);
                 });
             }
         }
