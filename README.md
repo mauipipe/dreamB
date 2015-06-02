@@ -30,5 +30,8 @@
   A full dump to visualize a working project can be found in data/dump/dreambeach.sql on the project root
   Import it using the preferred method (phpMyAdmin,console)
   
-  
-  
+# Run Test 
+  To run test with Behat from the project root:
+  php bin/behat API
+  To run test with phpspec from the project root:
+  php bin/phpspec run
