@@ -1,17 +1,21 @@
 <div class="content">
-    <div ng-repeat="comment in comments | orderBy:'creationDate':false" class="col-lg-offset-4 col-lg-8">
-        <h1>{( comment.title )}</h1>
-        <div class="col-lg-4">
+    <div ng-repeat="comment in comments | orderBy:'creationDate':false" class="col-lg-offset-2 col-lg-8 comment">
+        <div class="col-lg-3">
             <img ng-src="{( comment.image )}" class="img-responsive"/>
         </div>
-        <div class="col-lg-8">
-            <h3>name:{( comment.name + comment.last_name)}</h3>
-
-            <div class="beach-detail">
-                Nome spiaggia: {( comment.beach.name)}<br>
-                Luogo: {( comment.beach.city)}
-            </div>
+        <div class="col-lg-9">
+            <h2>{( comment.title )}</h2>
             <p>{( comment.description)}</p>
+            <div class="beach-detail">
+                Spiaggia: {( comment.beach.name)} ({( comment.beach.city)})
+            </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="comment-footer text-right">
+            Postato da : {( comment.name )}
         </div>
     </div>
+
 </div>
