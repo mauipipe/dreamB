@@ -55,7 +55,7 @@ Feature:
             "name": "Bay Beach",
             "city": "San Francisco"
         },
-        "image": "http://dream-beach.local/image/comment/1.jpg"
+        "image": "http://dream-beach.local/image/comment/placeholder.jpg"
     },
     {
         "id": 2,
@@ -69,7 +69,7 @@ Feature:
             "name": "Palermo Beach",
             "city": "Palermo"
         },
-        "image": "http://dream-beach.local/image/comment/2.jpg"
+        "image": "http://dream-beach.local/image/comment/placeholder.jpg"
     }
 ]
     """
@@ -95,7 +95,7 @@ Feature:
             "name": "Palermo Beach",
             "city": "Palermo"
         },
-        "image": "http://dream-beach.local/image/comment/2.jpg"
+        "image": "http://dream-beach.local/image/comment/placeholder.jpg"
     }
 ]
     """

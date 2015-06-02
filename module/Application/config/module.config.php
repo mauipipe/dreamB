@@ -82,7 +82,6 @@ return array(
             'routes' => array(),
         ),
     ),
-    'base_image_path'=>'/srv/apps/dreamBeach/data/pics',
     'htimg'           => [
         'filters' => [
             'my_thumbnail' => [ // this is  filter service

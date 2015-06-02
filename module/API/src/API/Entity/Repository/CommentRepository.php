@@ -27,8 +27,9 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
             'JOIN co.beach b ' .
             'JOIN b.city c ';
         if($hasParameter){
-            $dql .= 'WHERE b.city = :city_id';
+            $dql .= 'WHERE b.city = :city_id ';
         }
+        $dql .= 'ORDER BY co.creationDate ASC';
 
         $result = $this->_em->createQuery($dql);
         if($hasParameter){

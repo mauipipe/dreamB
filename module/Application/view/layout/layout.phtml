@@ -19,20 +19,24 @@
 
 </head>
 <body ng-app="dream-beach" ng-controller="CommentController">
+<img class="bg" src="/img/background_beach.jpg">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <div class="col-lg-offset-4 col-lg-2">
+        <div class="col-lg-offset-2 col-lg-2">
             <form id="search_comment">
                 <div class="form-group">
                     <select class="form-control" ng-change="filterByCity()" ng-model="cityOption">
-                        <option value="">Sceglia una citta'</option>
+                        <option value="">Filtra per citta'</option>
                         <option ng-repeat="city in cities" value="{( city.id )}">{( city.name )}</option>
                     </select>
                 </div>
             </form>
         </div>
-        <div class="col-lg-6">
-            <button class="btn btn-success" ng-click="open('lg')">Large modal</button>
+        <div class="col-lg-2">
+            <h1 class="title">DreamBeach.local</h1>
+        </div>
+        <div class="col-lg-4 text-right">
+            Aggiungi un Commento<button class="btn btn-success" ng-click="open('lg')">+</button>
         </div>
     </div>
 </nav>
@@ -40,8 +44,7 @@
     <?php echo $this->content; ?>
     <hr>
     <footer>
-        <p>&copy; 2005 - <?php echo date('Y') ?> by Zend Technologies
-            Ltd. <?php echo $this->translate('All rights reserved.') ?></p>
+        <p> dreamBeach.local </p>
     </footer>
 </div>
 <?php
@@ -51,12 +54,12 @@ echo $this->headScript()
     ->prependFile($this->basePath('js/dist/angular-resource/angular-resource.js'))
     ->prependFile($this->basePath('js/dist/angular-route/angular-route.js'))
     ->prependFile($this->basePath('js/app/app.js'))
-    ->prependFile($this->basePath('js/Config.js'))
     ->prependFile($this->basePath('js/dist/angular-bootstrap/ui-bootstrap-tpls.js'))
     ->prependFile($this->basePath('js/dist/angular/angular.js'))
     ->appendFile($this->basePath('js/app/Service/CommentResource.js'))
     ->appendFile($this->basePath('js/app/Service/CityResource.js'))
     ->appendFile($this->basePath('js/app/Service/BeachResource.js'))
+    ->appendFile($this->basePath('js/app/Service/Helpers.js'))
     ->appendFile($this->basePath('js/app/Controller/ModalInstanceController.js'))
     ->appendFile($this->basePath('js/app/Controller/CommentController.js'));
 ?>

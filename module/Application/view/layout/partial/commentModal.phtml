@@ -11,65 +11,71 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <input class="form-control" ng-model="commentTitle" name="commentTitle" value="" required>
-
-                    <p ng-show="commentForm.commentTitle.$invalid && !commentForm.commentTitle.$pristine" class="help-block">Campo
-                        richiesto</p>
+                    <input class="form-control" ng-model="commentTitle" name="commentTitle" value=""
+                           placeholder="Titolo" required>
+                    <i ng-show="commentForm.commentTitle.$error.required" class="">*Campo richiesto</i>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" ng-model="name" name="name" value="" required>
-
-                    <p ng-show="commentForm.name.$invalid && !commentForm.name.$pristine" class="help-block">Campo
-                        richiesto</p>
+                    <input class="form-control" ng-model="name" name="name" value="" required placeholder="Nome">
+                    <i ng-show="commentForm.name.$error.required" class="">*Campo richiesto</i>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" ng-model="lastName" name="lastName" value="" required>
+                    <input class="form-control" ng-model="lastName" name="lastName" value="" placeholder="Cognome"
+                           required>
+                    <i ng-show="commentForm.lastName.$error.required" class="">*Campo richiesto</i>
                 </div>
                 <div class="form-group">
-                    <select name="beach" ng-model="beach" required>
+                    <select class="form-control" name="beach" ng-model="beach" required>
                         <option value="">Seleziona una spiaggia</option>
                         <option ng-repeat="beach in beaches" value="{( beach.id )}">
                             {( beach.name )} <span>({( beach.city )})</span>
                         </option>
                     </select>
-                    <p>La citta' non e' presente nell'elenco aggiungila <button ng-click="toggleBeachForm()" class="btn btn-danger">+</button></p>
+                    <i ng-show="commentForm.beach.$error.required" class="">*Campo richiesto</i>
+
+                    <p>La citta' non e' presente nell'elenco aggiungila
+                        <button ng-click="toggleBeachForm()" class="btn btn-danger">+</button>
+                    </p>
                 </div>
                 <div class="form-group">
                 <textarea class="form-control" ng-model="description" required ng-maxlength="255"
-                          name="description"></textarea>
-
-                    <p ng-show="commentForm.description.$invalid && !commentForm.decription.$pristine"
-                       class="help-block">
-                        Campo richiesto</p>
-
+                          name="description" placeholder="Commento"></textarea>
+                    <i ng-show="commentForm.description.$error.required" class="">*Campo richiesto</i>
                 </div>
                 <div class="form-group">
-                    <input type="file" ngf-select name="commentImage" ng-model="commentImage">
+                    <input class="form-control" type="file" ngf-select name="commentImage" ngf-accept="'image/*'" ng-model="commentImage">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="save(commentImage)">Save</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                <button class="btn btn-primary" ng-click="save(commentImage)">Salva</button>
+                <button class="btn btn-warning" ng-click="cancel()">Annulla</button>
             </div>
         </form>
     </div>
     <div ng-show="isBeachFormActive">
-        <p><button class="btn btn-danger" ng-click="toggleBeachForm()">Indietro</button></p>
-
         <form name="beachForm" novalidate>
-            <div class="form-group">
-                <input type="text" ng-model="beach.name" value="">
+
+            <div class="modal-header">
+                <h3 class="modal-title">Aggiungi una spiaggia</h3>
             </div>
-            <div class="form-group">
-                <select name="city" ng-model="beach.city" required>
-                    <option value="">Seleziona una citta'</option>
-                    <option ng-repeat="city in cities" value="{( city.id )}">
-                        {( city.name )}
-                    </option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input class="btn btn-primary" value="Salva"  ng-click="saveBeach(beach)" type="submit">
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Nome citta" type="text" ng-model="beachForm.beachName" value="" required>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="city" ng-model="beachForm.city" required>
+                        <option value="">Seleziona una citta'</option>
+                        <option ng-repeat="city in cities" value="{( city.id )}">
+                            {( city.name )}
+                        </option>
+                    </select>
+                </div>
+                <p ng-show="beachForm.$invalid" class="help-block">*Tutti i Campi sono richiesti</p>
+
+                <div class="form-group">
+                    <button class="btn btn-danger" ng-click="toggleBeachForm()">Indietro</button>
+                    <input class="btn btn-primary" value="Salva" ng-click="saveBeach(beachForm)" type="submit">
+                </div>
             </div>
         </form>
     </div>

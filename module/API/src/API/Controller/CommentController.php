@@ -4,7 +4,6 @@ namespace API\Controller;
 
 use API\Service\CommentService;
 use Application\Service\ImageService;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 class CommentController extends AbstractBaseRestController
@@ -27,17 +26,12 @@ class CommentController extends AbstractBaseRestController
         try {
 
             $requestParamsResult = $this->processRequestParams($data);
-            if($requestParamsResult instanceof JsonModel){
+            if ($requestParamsResult instanceof JsonModel) {
                 return $requestParamsResult;
             }
 
             $comment = $this->commentService->addComment($data);
-
-            $files = $this->getRequest()->getFiles()->toArray();
-            $this->imageService->rename($comment['id']);
-            if (!$this->imageService->isReceived($files['file']['name'])) {
-                throw new \ImageNotFoundException('The image is not saved');
-            }
+            $this->processFile($comment['id']);
 
             $formattedComment = $this->imageLinkCreator()->addCommentImageLink(array($comment));
             $responseBody['entity'] = $formattedComment[0];
@@ -55,8 +49,8 @@ class CommentController extends AbstractBaseRestController
         $response = $this->getResponse();
 
         $params = $this->getRequest()->getQuery();
-        $requestParamsResult = $this->processRequestParams($params->toArray(),true);
-        if($requestParamsResult instanceof JsonModel){
+        $requestParamsResult = $this->processRequestParams($params->toArray(), true);
+        if ($requestParamsResult instanceof JsonModel) {
             return $requestParamsResult;
         }
 
@@ -69,6 +63,21 @@ class CommentController extends AbstractBaseRestController
         }
 
         return new JsonModel($responseBody);
+    }
+
+    /**
+     * @param $comment
+     * @throws \ImageNotFoundException
+     */
+    private function processFile($commentId)
+    {
+        $files = $this->getRequest()->getFiles()->toArray();
+        if (sizeof($files) > 0) {
+            $this->imageService->rename($commentId);
+            if (!$this->imageService->isReceived($files['file']['name'])) {
+                throw new \ImageNotFoundException('The image is not saved');
+            }
+        }
     }
 
 }

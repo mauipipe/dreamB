@@ -105,6 +105,7 @@ class FeatureContext extends BehatContext implements Zf2AwareContextInterface
      */
     public function restoreDb()
     {
+        unlink(__DIR__. '/../../../../../../data/pics/1.jpg');
         $em = $this->getEntityManager();
         $tool = new SchemaTool($em);
         $metaData = $em->getMetadataFactory()->getAllMetadata();
