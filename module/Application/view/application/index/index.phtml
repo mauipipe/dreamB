@@ -7,14 +7,14 @@
             <h2>{( comment.title )}</h2>
             <p>{( comment.description)}</p>
             <div class="beach-detail">
-                Spiaggia: {( comment.beach.name)} ({( comment.beach.city)})
+                Spiaggia: {( comment.beach.name )} ({( comment.beach.city)})
             </div>
 
         </div>
 
         <div class="clearfix"></div>
         <div class="comment-footer text-right">
-            Postato da : {( comment.name )} il {( comment.creationDate )}
+            Postato da : {( comment.name + ' ' + comment.lastName )} il {( comment.creationDate )}
         </div>
     </div>
 
