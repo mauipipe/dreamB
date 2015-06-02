@@ -1,5 +1,5 @@
 <div class="content">
-    <div ng-repeat="comment in comments | orderBy:'creationDate':false" class="col-lg-offset-2 col-lg-8 comment">
+    <div ng-repeat="comment in comments " class="col-lg-offset-2 col-lg-8 comment">
         <div class="col-lg-3">
             <img ng-src="{( comment.image )}" class="img-responsive"/>
         </div>
@@ -14,7 +14,7 @@
 
         <div class="clearfix"></div>
         <div class="comment-footer text-right">
-            Postato da : {( comment.name )}
+            Postato da : {( comment.name )} il {( comment.creationDate )}
         </div>
     </div>
 
