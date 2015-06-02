@@ -12,5 +12,5 @@
  */
 
 return array(
-    // ...
+    'base_image_path'=>'/srv/apps/dreamBeach/data/pics'
 );
