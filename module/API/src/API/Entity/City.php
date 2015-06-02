@@ -31,7 +31,7 @@ class City
     protected $beaches;
 
     /**
-     * @ORM\Column(type="text", length=200)
+     * @ORM\Column(type="string", length=200)
      */
     protected $slug;
     /**
