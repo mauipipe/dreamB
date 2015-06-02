@@ -38,7 +38,11 @@ class RestParamsValidator extends AbstractPlugin
         if (array_key_exists($controllerClass, $this->apiValidationParamsConfig)) {
             $apiValidationParams = $this->apiValidationParamsConfig[$controllerClass][$method];
 
-            if($this->hasMalformedParams($data,$apiValidationParams)){
+            if($this->hasMalformedValues($data,$apiValidationParams)){
+                return false;
+            }
+
+            if ($this->hasMalformedParams($data, $apiValidationParams)) {
                 return false;
             }
 
@@ -59,12 +63,13 @@ class RestParamsValidator extends AbstractPlugin
      * @param $apiValidationPar
      * @return bool
      */
-    private function hasMalformedParams($data,$apiValidationPar){
+    private function hasMalformedParams($data, $apiValidationPar)
+    {
 
         $paramDiff = $this->getDiff($data, $apiValidationPar);
 
         if (sizeof(array_unique($paramDiff)) > 0) {
-            $this->errors['malformed_params'] =  $paramDiff;
+            $this->errors['malformed_params'] = $paramDiff;
             return false;
         };
         return false;
@@ -82,11 +87,23 @@ class RestParamsValidator extends AbstractPlugin
         $paramInverseDiff = array_diff($paramsKey, $apiValidationParams['allowed_params']);
 
         $result = array(
-            'mismatch_allowed_params' => implode(',',$paramDiff),
-            'unknown_params'          => implode(',',$paramInverseDiff)
+            'mismatch_allowed_params' => implode(',', $paramDiff),
+            'unknown_params' => implode(',', $paramInverseDiff)
         );
 
         return $result;
+    }
+
+    private function hasMalformedValues($data, $apiValidationParams)
+    {
+        foreach ($data as $value) {
+            if(in_array($value,$apiValidationParams['forbidden_values'])){
+                $this->errors['invalid_value'][] = $value;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getErrors()

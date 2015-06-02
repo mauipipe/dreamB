@@ -111,6 +111,9 @@ return array(
                 'allowed_params' => array(
                     'name', 'description', 'lastName', 'beach_id','title'
                 ),
+                'forbidden_values'=>array(
+                    'undefined'
+                ),
                 'filter_class'   => 'API\Validator\CommentInputFilter'
             ),
             'GET'  => array(
@@ -125,6 +128,9 @@ return array(
             'POST' => array(
                 'allowed_params' => array(
                     'name', 'city_id'
+                ),
+                'forbidden_values'=>array(
+                  'undefined'
                 ),
                 'filter_class'   => 'API\Validator\BeachInputFilter'
             ),
