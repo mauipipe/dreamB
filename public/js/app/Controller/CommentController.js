@@ -16,7 +16,11 @@ angular.module('dream-beach')
 
             $scope.filterByCity = function () {
                 var value = $scope.cityOption;
-                $scope.comments = $commentResource.query({"city": value});
+                var param = null;
+                if(value !== ''){
+                    param = {"city": value};
+                }
+                $scope.comments = $commentResource.query(param);
             }
 
             $rootScope.$on('commentSaved', function (event, comment) {
