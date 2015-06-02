@@ -3,7 +3,7 @@
  */
 
 angular.module('dream-beach')
-    .factory('CityResource', ['$resource', function ($resource) {
-        var url = Config.getEndPoint() + '/city';
+    .factory('CityResource', ['$resource','Helpers', function ($resource,$helpers) {
+        var url = $helpers.getEndPoint() + '/city';
         return $resource(url);
     }])

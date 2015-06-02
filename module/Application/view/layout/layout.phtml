@@ -55,12 +55,12 @@ echo $this->headScript()
     ->prependFile($this->basePath('js/dist/angular-resource/angular-resource.js'))
     ->prependFile($this->basePath('js/dist/angular-route/angular-route.js'))
     ->prependFile($this->basePath('js/app/app.js'))
-    ->prependFile($this->basePath('js/Config.js'))
     ->prependFile($this->basePath('js/dist/angular-bootstrap/ui-bootstrap-tpls.js'))
     ->prependFile($this->basePath('js/dist/angular/angular.js'))
     ->appendFile($this->basePath('js/app/Service/CommentResource.js'))
     ->appendFile($this->basePath('js/app/Service/CityResource.js'))
     ->appendFile($this->basePath('js/app/Service/BeachResource.js'))
+    ->appendFile($this->basePath('js/app/Service/Helpers.js'))
     ->appendFile($this->basePath('js/app/Controller/ModalInstanceController.js'))
     ->appendFile($this->basePath('js/app/Controller/CommentController.js'));
 ?>

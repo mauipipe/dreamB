@@ -3,7 +3,11 @@
  */
 
 angular.module('dream-beach')
-    .factory('BeachResource', ['$resource', function ($resource) {
-        var url = Config.getEndPoint() + '/beach';
-        return $resource(url);
+    .factory('BeachResource', ['$resource','$http', 'Helpers', function ($resource,$http, $helpers) {
+        var url = $helpers.getEndPoint() + '/beach';
+        return {
+            getBeaches: function () {
+                return $resource(url);
+            }
+        };
     }])

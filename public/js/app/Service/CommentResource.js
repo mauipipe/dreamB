@@ -4,8 +4,8 @@
 'use strict';
 
 angular.module('dream-beach')
-    .factory('CommentResource', ['$resource', function ($resource) {
-        var url = Config.getEndPoint() + '/comment';
+    .factory('CommentResource', ['$resource','Helpers', function ($resource,$helpers) {
+        var url = $helpers.getEndPoint() + '/comment';
         return $resource(url,{city : '@city'});
     }])
 
