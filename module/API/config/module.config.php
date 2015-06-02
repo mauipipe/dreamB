@@ -17,6 +17,7 @@ return array(
                             'route'    => '/',
                             'defaults' => array(
                                 'controller' => 'API\Controller\Index',
+                                'action'=>'index'
                             ),
                         ),
                     ),
@@ -65,6 +66,9 @@ return array(
         'strategies' => array(
             'ViewJsonStrategy'
         ),
+        'template_path_stack'      => array(
+            __DIR__ . '/../view',
+        )
     ),
 
     'doctrine-hydrator'     => array(
